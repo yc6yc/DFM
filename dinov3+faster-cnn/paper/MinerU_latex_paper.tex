@@ -1,0 +1,1115 @@
+% This LaTeX document needs to be compiled with XeLaTeX.
+\documentclass[
+  10
+]{article}
+\usepackage[margin=2cm,includehead=true,includefoot=true,centering,]{geometry}
+\usepackage{xcolor}
+\usepackage{ucharclasses}
+\usepackage{hyperref}
+\usepackage{amsmath,amssymb}
+\usepackage{amsfonts}
+\usepackage[version=4]{mhchem}
+\usepackage{stmaryrd}
+\usepackage{bbold}
+\usepackage{polyglossia}
+\usepackage{fontspec}
+\usepackage{ctex}
+\usepackage[export]{adjustbox}
+\usepackage{tabularx}
+\usepackage{booktabs}
+
+\usepackage{setspace}
+\setstretch{1.2}
+
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{longtable,booktabs,array}
+\newcounter{none} % for unnumbered tables
+\usepackage{multirow}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+
+\hypersetup{colorlinks=true, linkcolor=blue, filecolor=magenta, urlcolor=cyan,}
+\urlstyle{same}
+
+\usepackage{colortbl}
+\definecolor{table-row-color}{HTML}{999999}
+\definecolor{table-rule-color}{HTML}{999999}
+%\arrayrulecolor{black!40}
+\arrayrulecolor{table-rule-color}     % color of \toprule, \midrule, \bottomrule
+\setlength{\aboverulesep}{0pt}
+\setlength{\belowrulesep}{0pt}
+
+
+\setotherlanguages{english}
+\IfFontExistsTF{Source Han Serif CN}
+{\newfontfamily\chinesefont{Source Han Serif CN}}
+{\IfFontExistsTF{Noto Serif CJK SC}
+  {\newfontfamily\chinesefont{Noto Serif CJK SC}}
+  {\IfFontExistsTF{SimSun}
+    {\newfontfamily\chinesefont{SimSun}}
+    {\IfFontExistsTF{FangSong}
+      {\newfontfamily\chinesefont{FangSong}}
+      {\newfontfamily\chinesefont{Arial Unicode MS}}
+}}}
+\IfFontExistsTF{Times New Roman}
+{\newfontfamily\englishfont{Times New Roman}}
+{\IfFontExistsTF{Liberation Serif}
+  {\newfontfamily\englishfont{Liberation Serif}}
+  {\IfFontExistsTF{DejaVu Serif}
+    {\newfontfamily\englishfont{DejaVu Serif}}
+    {\newfontfamily\englishfont{Arial}}
+}}
+
+
+\author{}
+\date{}
+
+\begin{document}
+
+
+\section{Enhancing Spatiotemporal Consistency in Intracranial Aneurysm
+Detection: ATargeted Feature Aggregation Framework for DSA
+Sequences}\label{enhancing-spatiotemporal-consistency-in-intracranial-aneurysm-detection-atargeted-feature-aggregation-framework-for-dsa-sequences}
+
+Anonymous submission
+
+\section{Abstract}\label{abstract}
+
+Intracranial aneurysm (IA) rupture is the leading cause ofnon-traumatic
+subarachnoid hemorrhage, resulting in severedisability or death. Digital
+subtraction angiography (DSA)is the gold standard for diagnosing
+cerebrovascular diseasesand plays a vital role in early IA detection.
+However, accu-rate IA identification in DSA sequences presents two
+pri-mary challenges: small IA signals are obscured by redun-dant
+background features, and detection results frequentlylack consistency
+across the temporal sequence. To addressthese challenges, a detection
+framework with targeted fea-ture aggregation is proposed. This approach
+refines featuresby selectively processing information only from
+high-qualityproposals. This targeted mechanism not only effectively
+sup-presses background noise but also leads to more
+consistentdetections, enabling comprehensive temporal analysis.
+Fur-thermore, we employ a post-processing heuristic named Bi-SeqNMS,
+which utilizes bidirectional temporal linking to fur-ther optimize
+detection consistency across the sequence. Ex-perimental results show
+our method achieves a significant im-provement over baseline models. Our
+method demonstratesrobust performance on IAs with varied
+characteristics, con-firming its potential in assisting IA diagnosis.
+
+\section{1 Introduction}\label{introduction}
+
+Intracranial aneurysm (IA), a cerebrovascular disease withsignificant
+risks of disability and mortality, has a reportedprevalence of \(3 \%\)
+to \(7 \%\) in recent years (Li et al.~2013). IArupture is the leading
+cause of non-traumatic subarachnoidhemorrhage, accounting for most
+disability and mortalitycases (Ropper and Zervas 1984). Given these
+severe conse-quences, early and accurate detection of IAs combined
+withtimely interventions is essential to mitigate patient risks.Magnetic
+resonance angiography (MRA), computed tomog-raphy angiography (CTA), and
+digital subtraction angiogra-phy (DSA) are commonly employed techniques
+for diagnos-ing IAs in clinical practice (Hiratsuka et al.~2008; Yoon et
+al.2016). For preoperative evaluation, clinicians primarily relyon MRA
+and CTA images for the rapid screening of intracra-nial vascular lesions
+(Piotin et al.~2003). Compared to CTAand MRA, DSA provides clearer,
+higher-resolution vascu-lar imaging. Consequently, when CTA and MRA lack
+suf-ficient diagnostic accuracy, the superior resolution of DSAenables
+precise identification and localization of vascular le-sions,
+establishing it as the international gold standard for di-
+
+\pandocbounded{\includegraphics[keepaspectratio,alt={image}]{images/466d1a9cd3897ba07e2f20a2e6efc7d73eb001f79e4df0ee27cceef8cc75ce4e.jpg}}
+
+\pandocbounded{\includegraphics[keepaspectratio,alt={image}]{images/885b4b79fc0eef33cedda1a9e4a21f0bb460414b87550e9e6108fa81d8da83bd.jpg}}
+
+\pandocbounded{\includegraphics[keepaspectratio,alt={image}]{images/1e592f4d9ba1dc1b6779675f748bcf70a347928ad543ae1f7301fc72192e721e.jpg}}
+
+\pandocbounded{\includegraphics[keepaspectratio,alt={image}]{images/5275891ae38c81f93cd7d0385e315e96c5745378c562b6fdccebb7efb46adad5.jpg}}
+
+\pandocbounded{\includegraphics[keepaspectratio,alt={image}]{images/e54f1a57dc58f8e686071a096fa72ec2937c7cd0ac06a516e44b063bb3765dff.jpg}}
+
+\pandocbounded{\includegraphics[keepaspectratio,alt={image}]{images/b2c1d9a20a806e27242d55cc44b35d879e3c3f838a86ee2a186366656977b00b.jpg}}
+
+Figure 1: DSA sequence segment containing 6 frames fromthe arterial
+phase. The red arrow indicates confirmed IA.This segment illustrates the
+IA's progression from being ob-scured by surrounding vasculature to its
+eventual emergence.
+
+agnosing cerebrovascular diseases (Rodriguez-Regent et al.~´2014).
+Despite its diagnostic superiority, DSA requires clin-icians to analyze
+sequential images frame-by-frame. Thistime-consuming and labor-intensive
+process imposes sub-stantial burdens on clinicians. Prolonged review may
+exac-erbate subjective biases among clinicians, potentially
+com-promising diagnostic accuracy (Shen, Wu, and Suk 2017).
+
+Computer-Aided Diagnosis (CAD) systems effectively al-leviate
+clinicians' workload and reduce diagnostic variabil-ity by providing
+preliminary diagnostic results. Particularlyin aneurysm diagnosis, deep
+learning-based methods havedemonstrated superior robustness in lesion
+detection com-pared to conventional image processing techniques,
+estab-lishing them as a focal point of research. Shi et
+al.~(2020)proposed an end-to-end 3D-CNN segmentation model basedon CTA
+images to assist in diagnosing IAs. Faron et al.(2020) employed a
+CNN-based DeepMedic framework todetect IAs from clinical TOF-MRA data,
+achieving sensitiv-ity comparable to that of radiologists. These results
+highlightthe remarkable success of CNN-based object detection mod-els in
+the CAD field. However, current research on CAD sys-tems for lesion
+detection based on DSA images remains rel-atively limited, likely due to
+the challenges associated with
+
+acquiring high-quality DSA lesion detection datasets.
+
+Existing DSA lesion detection methods generally adopttwo paradigms:
+single-frame analysis, which relies on im-ages with explicit lesion
+annotations, and multi-frame anal-ysis that aggregates spatiotemporal
+features across frames.For instance, Xu et al.~(2023) designed a
+plug-and-playloss function for YOLOX that considers image similarity
+be-tween predicted and ground-truth bounding boxes, therebyimproving
+vascular stenosis detection performance on spe-cific DSA frames. Mo et
+al.~(2023) proposed a graph convo-lution module applied to Mask2Former
+to dynamically re-assign label information and adaptively adjust
+confidencefor erroneous instances, enabling automated segmentationof IAs
+in DSA images. While these frame-level approacheshave demonstrated
+notable potential, they are subject to in-herent limitations. Due to
+factors such as variations in imag-ing angles and contrast agent flow,
+intracranial arterial le-sions exhibit significant variability within
+individual DSAsequences. These lesions may appear in an uncertain
+num-ber of frames with diverse morphological features (Zhanget
+al.~2025), as illustrated in Fig. 1. Consequently, relyingsolely on
+individual DSA frames for inference cannot fullycapture the entire
+cerebrovascular structure or these patho-logical characteristics.
+
+Temporal feature learning architectures developed forvideo analysis
+(Shi, Wang, and Guo 2023) have demon-strated their transferability to
+medical image sequences.Duan et al.~(2019) first proposed a two-stage
+CNN architec-ture to automatically detect IAs in specific vascular
+regionsof 2D digital subtraction angiography (2D-DSA) sequences.Zeng et
+al.~(2019) employed a spatial information fusionmethod for aneurysm
+detection in 3D rotational angiography(3D-RA), in which consecutive
+frames from each imagingtime series were extracted and concatenated to
+embed tem-poral features into a single 2D image. Su et al.~(2022)
+intro-duced a spatiotemporal deep learning framework for auto-mated
+detection of intracranial vascular perforations in DSAsequences. This
+framework utilized existing backbone net-works to extract features from
+DSA frames and employeda long short-term memory (LSTM) network to
+capture tem-poral dependencies between frame features. The study
+con-firmed that aggregating more frames improves performance.However,
+the substantial GPU memory demands associatedwith processing
+high-resolution DSA images constitute abottleneck that constrains the
+number of aggregable frames.To address this issue, study (Zhang et
+al.~2023) employedsemi-automatic region-of-interest (ROI) extraction to
+reducethe input frame size for the model, thereby allowing moreframes to
+be aggregated. However, this approach still neces-sitated human
+intervention during inference.
+
+While Conv-LSTM architectures have proven effective incapturing temporal
+dynamics from DSA sequences, theirreliance on processing complete
+feature maps presents in-herent limitations for intracranial aneurysm
+detection. Thechallenge arises from the spatial disparity between
+lesionsize and image size. Clinical data as Fig. 1 indicates thatmost
+IAs occupy less than \(5 \%\) of the frame area, result-ing in
+aneurysm-specific features being diluted within exten-sive background
+features. These dominant background fea-
+
+Table 1: Statistical characteristics of our dataset. SPA, CPAand RA
+stand for Sagittal Plane Angiograph, Coronal PlaneAngiograph and
+Rotational Angiograph, respectively.
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}llll@{}}
+\toprule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Artery & Total & View & Diseases \\
+\multirow{3}{*}{ICA} & \multirow{3}{*}{55} & SPA: 25 & Aneurysm: 39 \\
+& & CPA: 20 & Stenosis: 16 \\
+& & RA: 10 & \\
+\multirow{3}{*}{ECA} & \multirow{3}{*}{43} & SPA: 17 & Aneurysm: 31 \\
+& & CPA: 14 & Stenosis: 12 \\
+& & RA: 12 & \\
+\multirow{2}{*}{VA} & \multirow{2}{*}{30} & SPA: 15 & Aneurysm: 8 \\
+& & CPA: 15 & Stenosis: 22 \\
+\end{longtable}
+}
+
+tures not only obscure the discriminative signatures of le-sions (Zhang
+et al.~2023), but also impose significant com-putational costs that
+limit the number of frames available fortemporal aggregation.
+
+Therefore, in this article, we propose a deep learningframework for
+detection of IAs in two-dimensional digi-tal subtraction angiography
+(2D-DSA) and unreconstructedthree-dimensional rotational angiography
+(3D-RA) images.This framework is based on a carefully prepared and
+anno-tated clinical DSA dataset, with its details presented in Ta-ble 1.
+To achieve this, we developed a targeted feature ag-gregation approach
+and a customized sequence-level post-processing method, while
+extensively evaluating several ex-isting advanced techniques. The main
+contributions of thispaper are summarized as follows:
+
+• We propose a detection framework centered on a targetedfeature
+aggregation approach, which integrates a featureselection process with a
+self-attention aggregation mod-ule. By concentrating on high-quality
+proposals, it mini-mizes background interference, thereby significantly
+en-hancing detection accuracy and consistency.
+
+• The framework is further enhanced by a bidirectionaltemporal linking
+post-processing heuristic, referred to asBi-SeqNMS, to provide a final
+refinement to the consis-tency established by targeted feature
+aggregation.
+
+• Comprehensive experiments conducted on our clinicalDSA dataset
+demonstrate that the proposed frameworkachieves superior performance,
+confirming its effective-ness as an accurate and reliable solution for
+IA detection.
+
+\section{2 Proposed method}\label{proposed-method}
+
+In this section, we propose a framework for the detectionof IAs in DSA
+sequences, as illustrated in Fig. 2. Theframework first employs a
+baseline detector to generate ini-tial proposals. Subsequently, the
+framework utilizes a self-attention-based Feature Aggregation Block
+(FAB) to selec-tively aggregate spatiotemporal features from
+high-qualityproposals, which enhances the target signal while
+suppress-ing noise. Finally, a post-processing module that lever-ages
+spatiotemporal consistency is applied to refine the re-
+
+\pandocbounded{\includegraphics[keepaspectratio,alt={image}]{images/914d1db2474ffe80d09f630332bde442d3ecc7e36baf5a38ea0e5d577707e5b3.jpg}}
+
+Figure 2: Proposed framework for IA detection, consisting of a base
+detection model, feature selection process, feature ag-gregation block
+and post-processing module named Bi-SeqNMS. The framework utilizes
+enhanced DSA sequence images asinput and extracts features using the
+base detection model. Feature selection process selects multiple
+proposals along with theircorresponding features based on the detector's
+scores for the predicted instances and the FAB optimizes these proposal
+scores.In the prediction stage, the detection results from the FAB
+undergo further temporal refinement through Bi-SeqNMS.
+
+sults. Our targeted feature aggregation strategy and post-processing
+module will be elaborated upon subsequently.
+
+\section{2.1 Targeted Feature
+Aggregation}\label{targeted-feature-aggregation}
+
+In our proposed Targeted Feature Aggregation (TFA) ap-proach, we employ
+a self-attention-based block that facili-tates learning of relationships
+between features across dif-ferent DSA frames in the input. During IA
+diagnosis inclinical DSA images, clinicians first identify specific
+framesthat exhibit prominent IA features as evidence of aneurysmpresence
+throughout the DSA sequence. Subsequently, forframes with less apparent
+aneurysm characteristics, clini-cians determine IA locations based on
+the temporal conti-nuity of the DSA sequence. This workflow aligns well
+withthe self-attention mechanism (Vaswani et al.~2017), whichis a core
+component of the Transformer architecture. Com-pared to RNNs and their
+variants, this mechanism demon-strates superior long-range dependency
+modeling capabilityfor capturing cross-frame relationships.
+
+Feature Selection In previous studies on DSA lesion de-tection (Duan et
+al.~2019; Su et al.~2022; Zhang et al.~2023),researchers typically
+employed multi-scale feature maps ex-tracted by backbone networks for
+multi-frame feature ag-gregation, leveraging inter-frame comparisons to
+identifylesions. However, directly feeding complete feature maps
+
+into FAB presents two significant limitations: First, exces-sive
+background features may obscure the critical charac-teristics of IAs,
+introducing interference in detection tasks;Second, the substantial
+computational overhead associatedwith processing complete feature maps
+severely restricts thenumber of frames that can be processed. To address
+thesechallenges, we introduce a feature selection process prior
+totestinputting the data into the FAB. By leveraging
+YOLOv8'sTask-Aligned Learning (TAL) (Feng et al.~2021), we
+rank\ldots predictions during training base on the alignment metric:
+
+\[
+t = s ^ {\alpha} \cdot u ^ {\beta}, \tag {1}
+\]
+
+where s represents the predicted class confidencescore, u denotes the
+Complete Intersection over Union(CIoU) (Zheng et al.~2021) between
+predicted andground-truth bounding boxes, and α, \(\beta\) are
+balancinghyperparameters set to 0.5 and 6 respectively. Predictionsare
+ranked by descending t, with the top-K candidatesselected as positive
+samples. During the training phase,this metric guides our feature
+screening. Specifically,predictions with t-values exceeding a threshold
+are firstretained, followed by non-maximum suppression (NMS)to eliminate
+redundant spatially overlapping proposals.Collected from the
+classification branch, the selected ROIsand their corresponding features
+\(f _ { i }\) ..are retained as inputsfor the FAB. During the inference
+phase, since the ground-truth-dependent alignment metric t is
+unavailable, we utilize
+
+the classification confidence score \(s _ { i }\) as the quality
+metricto rank proposals and select the top-K inputs for the
+featureaggregation block.
+
+Feature Aggregation As shown in Fig. 2, the input fea-tures of FAB are
+defined as
+\(F _ { i n } = \{ f _ { 1 } , { \bar { f } } _ { 2 } , \dots , f _ { n } \}\)
+, whereeach \(f _ { i } \in \mathbb { R } ^ { n _ { i } \times d }\)
+represents the feature set of the \(i\) -th frame.Here, \(n _ { i }\)
+denotes the number of ROIs retained after thresholdfiltering and NMS for
+the \(i\) -th frame, and \(d\) is the dimension-ality of ROI features.
+All features in \(F _ { i n }\) are concatenatedinto a stacked matrix:
+
+\[
+F \in \mathbb {R} ^ {n \times d}, \quad \text {w h e r e} n = \sum_ {i = 1} ^ {n} n _ {i}. \tag {2}
+\]
+
+Through linear transformations, \(F\) is projected into query\(( Q )\) ,
+key \(( K )\) , and value \(( V )\) matrices:
+
+\[
+Q = F W ^ {Q}, \quad K = F W ^ {K}, \quad V = F W ^ {V}, \tag {3}
+\]
+
+where
+\(W ^ { Q } , W ^ { K } , W ^ { V } \in \mathbb { R } ^ { d \times d _ { k } }\)
+. To enhance the model'sexpressive power, FAB employs multi-head
+self-attention.The multi-head self-attention is computed as:
+
+\[
+h e a d _ {h} = \operatorname {s o f t m a x} \left(\frac {Q _ {h} K _ {h} ^ {\top}}{\sqrt {d _ {k}}}\right) V _ {h}, \tag {4}
+\]
+
+\[
+\operatorname {M S A} (F) = \operatorname {C o n c a t} \left(\text {h e a d} _ {1}, \dots , \text {h e a d} _ {h}\right), \tag {5}
+\]
+
+with \(Q _ { h } , K _ { h } , V _ { h }\) denoting split sub-matrices
+of the original\(Q , K , V\) . To preserve original feature information,
+the ag-gregated features are concatenated with the original features:
+
+\[
+\operatorname {F A} (F) = \operatorname {C o n c a t} (\operatorname {M S A} (F), F), \tag {6}
+\]
+
+The aggregated feature vectors are subsequently processedthrough a
+linear transformation followed a Softmax layer,yielding the refined
+scores of FAB-optimized proposals.
+
+During feature aggregation, it is essential to associateidentical IA
+targets across frames. Drawing inspiration fromcosine similarity-based
+cross-frame ROI association in two-stage video object detectors (Wu et
+al.~2019), we proposematching proposal features using cosine similarity.
+Specifi-cally, for the value features
+\(V \in \mathbb { R } ^ { n \times d _ { k } }\) derived from
+con-catenated \(F _ { i n }\) and linear projection, we compute the
+row-normalized cosine similarity matrix:
+
+\[
+\operatorname {S i m} _ {V} = \psi (V) \cdot \psi (V) ^ {\top} \in \mathbb {R} ^ {n \times n}, \tag {7}
+\]
+
+where \(V ~ \in ~ \mathbb { R } ^ { n \times d _ { k } }\) denotes the
+projected value featuresfrom concatenated input \(F _ { i n }\) , and
+\(\psi ( \cdot )\) denotes row-wise L2-normalized transformation. A
+binary mask matrix is thengenerated by thresholding \(S i m _ { V }\)
+and applied to the atten-√tion weights
+\(W _ { a } = \mathrm { s o f t m a x } ( Q _ { h } K _ { h } ^ { \top } / \sqrt { \dot { d } _ { k } } )\)
+, thereby guidingthe attention mechanism to focus on features from
+candidateregions that exhibit high similarity to the current target.
+
+\section{2.2 Post-Processing}\label{post-processing}
+
+In DSA sequences, a distinct lesion visible in one frame of-ten
+corresponds to identifiable lesion regions in adjacent po-sitions of
+neighboring frames. We refer to this pattern asspatiotemporal
+consistency. Although our targeted featureaggregation enhances
+detections, it cannot perfectly guar-antee spatiotemporal consistency of
+results. The reason lies
+
+\pandocbounded{\includegraphics[keepaspectratio,alt={image}]{images/25a08863d7f622f35886367b735d79786549b6d56e07f2162a3bb754fd6d983d.jpg}}
+
+Figure 3: Bi-SeqNMS bounding box optimization workflow.Rescores boxes
+through forward and reverse bounding boxlinking, followed by NMS to
+eliminate redundancies andproduce final predictions.
+
+in the FAB's self-attention mechanism, which relies on co-sine
+similarity between features to aggregate information.In some cases, a
+correct detection in a challenging sce-nario, such as an early frame
+with poor contrast, might yielda feature vector with low similarity to
+those from clearerframes. This could cause the attention mask to
+erroneouslysuppress this valid proposal, leading to a missed detectionin
+that frame and thus breaking the consistency. There-fore, to further
+refine the results, we designed a Bidirec-tional Sequence Non-Maximum
+Suppression (Bi-SeqNMS)method, inspired by Sequence Non-Maximum
+Suppression(Seq-NMS) (Han et al.~2016), as illustrated in Fig. 3
+
+The method first establishes continuous detection box tra-jectories
+through temporal association. If the intersection-over-union (IoU)
+between two bounding boxes in adjacentframes exceeds a predefined
+threshold, they are identifiedas part of the same target trajectory.
+Subsequently, sequencerescoring is applied to each trajectory by fusing
+detectionconfidence scores across all frames within the trajectory.
+Fi-nally, cross-frame redundancy suppression removes overlap-ping boxes
+exceeding a threshold within the track, retain-ing only the
+highest-scoring boundary box. Building uponthe foundation of Seq-NMS,
+our approach performs anal-ogous inference on reverse-direction DSA
+sequences andmerges results from forward and reverse inferences.
+Image-level NMS is then applied to eliminate duplicate final out-puts.
+By incorporating reverse-direction linking, detectionresults for the
+current frame can be refined based on infor-mation from subsequent
+frames.
+
+\section{3 Experiments}\label{experiments}
+
+The DSA sequence dataset was obtained through collabora-tion with a
+hospital and consists of intraoperative and post-operative DSA images.
+As introduced in Table 1, this datasetincludes angiographic views of the
+internal carotid artery(ICA), external carotid artery (ECA), and
+vertebral artery(VA). All images were anonymized by removing
+clinicalmetadata to ensure compliance with patient privacy regula-
+
+tions. All DICOM-format data were acquired using SiemensAXIOM Artis
+angiography system (Siemens Healthineers,Germany) and Philips Allura
+UNIQ system (Philips, Nether-lands) during routine neurointerventional
+procedures.
+
+The dataset for this study was collected from 78 patients,comprising a
+total of 128 DSA sequences. These sequencesinclude 106 2D-DSA and 22
+3D-RA, all with a resolution of\(1 0 2 4 \times 1 0 2 4\) pixels. The
+dataset was prepared under the guid-ance of neurosurgeons. For
+aneurysm-positive sequences,we retained only arterial phase frames that
+clearly displaythe lesion, while also including sequences without IAs
+asnegative samples. Consequently, the selected 2D-DSA se-quences range
+from 10 to 16 frames, and 3D-RA sequencesspan 50 to 68 frames. To use
+multi-angle vascular morphol-ogy, 22 original 3D-RA sequences were
+processed into 25sub-sequences. To prevent data leakage, sub-sequences
+fromthe same source were separated by an imaging angle greaterthan
+\(6 0 ^ { \circ }\) , ensuring distinct vascular views. Combined withthe
+106 2D-DSA sequences, this resulted in a final datasetof 131 sequences
+used in our experiments. Bounding boxannotations for all IAs were
+performed by a junior radiol-ogist and subsequently reviewed and refined
+by two neuro-surgeons, each with over 5 years of experience in DSA
+in-terpretation. All annotated data were then converted into theYOLO
+dataset format. To standardize input dimensions, allsequences were
+temporally resampled to 10 frames for net-work training. The entire
+dataset was then evaluated using afive-fold cross-validation scheme to
+ensure robust results.
+
+\section{3.1 Implementation Details}\label{implementation-details}
+
+The proposed method is implemented using Python 3.8.6and the PyTorch
+2.0.1 framework, with model training con-ducted on an NVIDIA RTX4090 GPU
+(24GB). The networkarchitecture utilizes YOLOv8-m as the backbone, with
+boththe backbone and feature pyramid network (FPN) compo-nents
+initialized using COCO pretrained weights from Ultr-alytics. We adopt a
+stochastic gradient descent (SGD) opti-mizer with a momentum coefficient
+of 0.937 and a weightdecay of 0.0005, combined with a linear learning
+rate decaystrategy.
+
+During the training process, the input image size wasmaintained at
+\(1 0 2 4 \times 1 0 2 4\) pixels. We employed data aug-mentation
+methods, including mosaic, random flips, ran-dom contrast adjustments
+and random scaling, with the mo-saic augmentation being disabled for the
+final 10 epochs.The training process consists of two phases. During
+thefirst phase, the backbone network is trained on our DSAdataset to
+establish baseline lesion detection capabilities.This phase employs a
+maximum of 300 training epochs witha batch size of 8, starting with a
+base learning rate of 0.01accompanied by a 10-epoch warm-up period. In
+the sub-sequent phase, we introduce a feature aggregation modulewhile
+maintaining the weights inherited from the first-phasemodel. This stage
+is configured for 80 training epochs, pro-cesses sequence-consistent
+images in unified batches (batchsize \(= 1\) ), and implements an
+initial learning rate of 0.001with a 5-epoch warm-up period.
+
+Principal hyperparameter settings were as follows. In theFAB, the cosine
+similarity threshold for generating the at-
+
+tention mask was set to 0.9. The general NMS thresholdfor eliminating
+overlapping proposals was 0.75. For the Bi-SeqNMS during inference, the
+IoU threshold for trajectorylinking and the final NMS suppression
+threshold were set to0.20 and 0.95, respectively.
+
+\section{3.2 Evaluation Metrics}\label{evaluation-metrics}
+
+To evaluate model performance, we employed both local-ization and
+classification metrics. For IA localization, weutilized COCO metrics
+(Lin et al.~2014): Average Precision(AP), calculated over Intersection
+over Union (IoU) thresh-olds ranging from 0.50 to 0.95; AP50 (AP at
+\$\mathrm { I o U } \{ = \} 0 . 5 0 \$ ); andAP75 (AP at
+\(\mathrm { I o U } { = } 0 . 7 5\) . For image-level classification,
+animage was considered positive if it contained at least oneIA
+detection, with its confidence score determined by thehighest score
+among all detected boxes within that image.Images without an IA were
+classified as the negative class.The primary classification metric was
+the Area Under theReceiver Operating Characteristic Curve (AUC-ROC).
+Wealso reported sensitivity (Sens) and specificity (Spec), de-fined as:
+Sensitivity \(( \mathrm { S e n s } ) = \mathrm { T P } ~ /\)
+\(( \mathrm { T P } + \mathrm { F N } )\) );
+Specificity\(\mathrm { ( S p e c ) = T N / \left( T N + F P \right) }\)
+\(( \mathrm { T N } + \mathrm { F P } )\) , where TP, FP, TN, and FN
+repre-sent true positives, false positives, true negatives, and
+falsenegatives, respectively. The optimal threshold for calculat-ing
+these metrics was determined by maximizing Youden'sJ statistic. All
+reported performance metrics are based on afive-fold cross-validation at
+the image level.
+
+\section{3.3 Comparative Experiments}\label{comparative-experiments}
+
+In this section, we evaluate the proposed method using five-fold
+cross-validation on the dataset. To validate the effective-ness of our
+approach, we conduct quantitative comparisonswith advanced object
+detection methods including Faster R-CNN (Ren et al.~2016), Cascade
+R-CNN (Cai and Vascon-celos 2019), Swin (Liu et al.~2021), RetinaNet
+(Ross andDollar 2017), FCOS (Tian et al.~2019), YOLOv8 (Jocher, ´Qiu,
+and Chaurasia 2023) and DSA sequence-specific de-tection methods (Su et
+al.~2022).
+
+The quantitative comparison results, as shown in Ta-ble 2, demonstrate
+that our method achieves superior per-formance across classification and
+localization metrics com-pared to existing approaches. Among
+single-frame detec-tors, YOLOv8 demonstrates superior localization
+perfor-mance, surpassing the second-ranked Swin Transformer
+by\(2 . 0 9 \%\) , \(2 9 . 6 0 \%\) , and \(5 2 . 6 5 \%\) in AP50, AP,
+and AP75 met-rics respectively. However, Swin Transformer shows
+betterperformance in classification metrics. After evaluating
+lo-calization accuracy, classification performance, and modelparameters,
+we have selected YOLOv8 as the baseline dueto its balance between these
+factors. We further enhancedit with targeted improvements. By
+integrating our proposedmodules, we achieved performance enhancements of
+\(7 . 8 7 \%\) ,\(6 . 7 3 \%\) , \(5 . 4 2 \%\) , and \(9 . 7 2 \%\) in
+AP50, AP, AP75, and AUCmetrics respectively over the original baseline,
+surpassingSwin Transformer in classification performance. In compar-ison
+to Su et al.~(2022)'s Conv-LSTM approach for wholefeature map temporal
+feature extraction (with their featureextractor replaced by YOLOv8 for
+fair comparison), our re-sults demonstrates the superiority of our
+proposed feature
+
+Table 2: Quantitative comparison of IA detection methods: Evaluation
+metrics for localization and classification withmean±standard deviation
+from five-fold cross-validation.
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}lllllll@{}}
+\toprule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\multirow{2}{*}{Methods} & \multicolumn{3}{l}{%
+Localization Metrics} & \multicolumn{3}{l@{}}{%
+Classification Metrics} \\
+& AP50 & AP & AP75 & AUC & Spec & Sens \\
+Faster R-CNN & 0.538 ± 0.162 & 0.298 ± 0.093 & 0.298 ± 0.090 & 0.789 ±
+0.120 & 0.740 ± 0.101 & 0.763 ± 0.119 \\
+Cascade R-CNN & 0.572 ± 0.156 & 0.329 ± 0.105 & 0.359 ± 0.142 & 0.796 ±
+0.110 & 0.808 ± 0.046 & 0.702 ± 0.181 \\
+Swin & 0.622 ± 0.144 & 0.321 ± 0.073 & 0.302 ± 0.071 & 0.847 ± 0.070 &
+0.880 ± 0.074 & 0.719 ± 0.154 \\
+RetinaNet & 0.551 ± 0.110 & 0.325 ± 0.065 & 0.348 ± 0.086 & 0.818 ±
+0.076 & 0.880 ± 0.076 & 0.666 ± 0.159 \\
+FCOS & 0.576 ± 0.123 & 0.312 ± 0.081 & 0.313 ± 0.091 & 0.838 ± 0.075 &
+0.868 ± 0.076 & 0.731 ± 0.118 \\
+YOLOv8 & 0.635 ± 0.137 & 0.416 ± 0.121 & 0.461 ± 0.149 & 0.813 ± 0.059 &
+0.932 ± 0.103 & 0.618 ± 0.059 \\
+Su et al. & 0.645 ± 0.113 & 0.393 ± 0.093 & 0.420 ± 0.125 & 0.834 ±
+0.084 & 0.912 ± 0.117 & 0.726 ± 0.068 \\
+Ours & 0.685 ± 0.132 & 0.444 ± 0.113 & 0.486 ± 0.136 & 0.892 ± 0.077 &
+0.932 ± 0.083 & 0.806 ± 0.130 \\
+\end{longtable}
+}
+
+\pandocbounded{\includegraphics[keepaspectratio,alt={image}]{images/847fd245b36d63550be94b5bfceaacb2d703a515b3c64b95d9b2c07d8ab92828.jpg}}
+
+\pandocbounded{\includegraphics[keepaspectratio,alt={image}]{images/6a2544230a68c7c09e181ed780554cab1eb2dcc30b54966d000a590fa321104b.jpg}}
+
+Figure 4: Visual comparison of IA detection results. In eachcase, the
+top row presents the ground truth sequence. Thesubsequent rows display
+detection visualizations from vari-ous models. Red arrows indicate
+missed detections, and yel-low arrows indicate false detections.
+
+aggregation enhancement, yielding more reliable and robustdetection
+outcomes for clinical diagnostics.
+
+To intuitively demonstrate the advantages of our method,Fig. 4
+visualizes its performance in comparison to the base-
+
+line (YOLOv8) and the primary sequence-based method (Suet al.). We
+selected these representative methods for compar-ison to clearly
+highlight the specific improvements in accu-racy and consistency
+achieved by our method. In case (a),the baseline method did not detect
+the IA in specific frameswhen faced with contrast flow or IA occlusion
+by vessels.In contrast, our method provided more accurate and
+consis-tent detection results. Case (b) exhibits an instance of
+falsepositives from the baseline method, where a vessel overlap(yellow
+arrow) was identified as an IA. Furthermore, case(b) also visualizes the
+results of the method proposed bySu et al.~(2022). Although quantitative
+metrics indicate thattheir method utilizes Conv-LSTM to effectively
+correlatedetection results across frames, it also identified the
+vesseloverlap as a false positive in this instance. The persistence
+ofthis detection across frames suggests that its temporal corre-lation
+may also apply to IA-like structures. In contrast, ourmethod effectively
+addresses this issue. Through these twocases, we demonstrate that our
+method not only maintainsstable detection under contrast flow and
+occlusion caused byvessels, but also significantly reduces false
+positives arisingfrom vessel overlaps that resemble IAs.
+
+\section{3.4 Ablation Experiments}\label{ablation-experiments}
+
+The proposed method integrates TFA into the base YOLOv8model, along with
+a post-processing module named Bi-SeqNMS. To demonstrate the
+contributions of each compo-nent in the proposed network, we conducted
+ablation exper-iments using YOLOv8 as the baseline. The experimental
+re-sults are presented in Table 3.
+
+Ablation for TFA We first conducted an ablation study byintegrating the
+Targeted Feature Aggregation (TFA) into theYOLOv8 baseline. As shown in
+Row 2 of Table 3, incorpo-rating the TFA improved all detection metrics,
+with AP50,AP, AP75, and AUC increasing by \(6 . 6 1 \%\) ,
+\(5 . 5 3 \%\) , \(5 . 2 1 \%\) ,and \(8 . 3 4 \%\) , respectively. We
+attribute this enhancement tothe FAB's capability to search for
+supporting information fora target from other frames in the sequence.
+This mechanismenables the model to re-evaluate the current frame based
+ondetections in similar regions from other frames, particularlyin
+instances of target degradation.
+
+Additionally, we conducted controlled experiments to
+
+Table 3: Ablation study of these components of the proposed method. The
+results are average±standard deviation obtainedfrom the five-fold
+cross-validation experiment.
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}|l|l|l|l|l|l|l|l|l|@{}}
+\toprule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\hline
+\multicolumn{3}{@{}l}{%
+Ablation Sets} & \multicolumn{3}{l}{%
+Localization Metrics} & \multicolumn{3}{l@{}}{%
+Classification Metrics} \\
+\hline
+Base & TFA & PPM & AP50 & AP & AP75 & AUC & Spec & Sens \\
+\hline
+✓ & & & 0.635 ± 0.137 & 0.416 ± 0.121 & 0.461 ± 0.149 & 0.813 ± 0.059 &
+0.916 ± 0.121 & 0.686 ± 0.055 \\
+\hline
+✓ & ✓ & & 0.675 ± 0.134 & 0.439 ± 0.114 & 0.482 ± 0.139 & 0.887 ± 0.077
+& 0.928 ± 0.058 & 0.784 ± 0.080 \\
+\hline
+✓ & & ✓ & 0.668 ± 0.122 & 0.444 ± 0.112 & 0.508 ± 0.132 & 0.831 ± 0.066
+& 0.944 ± 0.071 & 0.716 ± 0.047 \\
+\hline
+✓ & ✓ & ✓ & 0.685 ± 0.132 & 0.444 ± 0.113 & 0.486 ± 0.136 & 0.892 ±
+0.077 & 0.932 ± 0.083 & 0.806 ± 0.130 \\
+\hline
+\end{longtable}
+}
+
+Table 4: Ablation study on the impact of maximum numberof proposal
+\(( P _ { m a x } )\) in feature selection process, with resultsaveraged
+over five-fold cross-validation experiments.
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}|l|l|l|l|l|@{}}
+\toprule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\hline
+Settings & AP50 & AP & AP75 & AUC \\
+\hline
+Pmax=3 & 0.660 & 0.429 & 0.478 & 0.866 \\
+\hline
+Pmax=5 & 0.670 & 0.431 & 0.471 & 0.887 \\
+\hline
+Pmax=10 & 0.675 & 0.439 & 0.482 & 0.887 \\
+\hline
+Pmax=15 & 0.667 & 0.428 & 0.462 & 0.883 \\
+\hline
+Pmax=20 & 0.665 & 0.429 & 0.469 & 0.882 \\
+\hline
+Pmax=30 & 0.670 & 0.430 & 0.467 & 0.879 \\
+\hline
+\end{longtable}
+}
+
+Table 5: Comparison between original and improved post-processing
+modules, with results averaged over five-foldcross-validation
+experiments. T, S, and B represent TFA,Seq-NMS, and Bi-SeqNMS,
+respectively.
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}|l|l|l|l|l|@{}}
+\toprule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\hline
+Settings & AP50 & AP & AP75 & AUC \\
+\hline
+Base & 0.635 & 0.416 & 0.461 & 0.813 \\
+\hline
+Base+S & 0.656 & 0.438 & 0.498 & 0.829 \\
+\hline
+Base+B & 0.668 & 0.444 & 0.508 & 0.831 \\
+\hline
+Base+T+S & 0.681 & 0.441 & 0.485 & 0.889 \\
+\hline
+Base+T+B & 0.685 & 0.444 & 0.486 & 0.892 \\
+\hline
+\end{longtable}
+}
+
+evaluate the impact of the maximum number of proposalsper frame
+\(( P _ { m a x } )\) on detection performance. As shown inTable 4,
+performance improved significantly across mostmetrics as
+\(P _ { m a x }\) was increased from 3 to 10, reaching itsoptimum at
+\(P _ { m a x } = 1 0\) . However, detection accuracy beganto decline as
+\(P _ { m a x }\) exceeded 10. This phenomenon may beexplained by the
+hypothesis that performance peaks once theselected proposals
+sufficiently cover all targets detectable bythe baseline network. As
+\(P _ { m a x }\) increases further, the inter-ference from redundant
+background features on the aggre-gation process becomes more pronounced.
+
+Ablation for PPM In this section, we evaluate the im-pact of the
+post-processing module (PPM) on detection per-formance. We integrated
+Bi-SeqNMS into two frameworks:one without TFA and one with TFA, while
+maintaining con-sistent experimental settings. The quantitative results
+in Ta-ble 3 demonstrate that the integration of Bi-SeqNMS sig-nificantly
+enhances detection performance compared to theframework without PPM.
+When both TFA and Bi-SeqNMS
+
+were used, the AP50, AP, AP75, and AUC of the test resultswere 0.685,
+0.444, 0.486, and 0.892, respectively. Comparedto the framework without
+PPM, each metric improved by\(1 . 4 8 \%\) , \(1 . 1 4 \%\) ,
+\(0 . 8 3 \%\) , and \(0 . 5 6 \%\) , respectively.
+
+Furthermore, we experimentally evaluate the effective-ness of the
+enhancements made to Seq-NMS. By applyingSeq-NMS and Bi-SeqNMS
+post-processing to detection re-sults from the same trained model, Table
+5 demonstratesthat both methods enhance detection metrics compared tothe
+absence of post-processing, whether TFA is utilized ornot. The optimal
+performance was achieved when the cur-rent framework employed Bi-SeqNMS,
+yielding AP50, AP,AP75, and AUC values of 0.685, 0.444, 0.486, and
+0.892,respectively. AP50, AP, AP75, and AUC were further im-proved by
+\(0 . 5 8 \%\) , \(0 . 6 8 \%\) , \(0 . 2 1 \%\) , and \(0 . 3 4 \%\) ,
+respectivelycompared to the use of Seq-NMS. This performance advan-tage
+may stem from Bi-SeqNMS's optimization of early-sequence detection. In
+early DSA sequences where IA ves-sels are not fully filled with contrast
+agent, detection scorestend to be lower. Since Seq-NMS relies on
+preceding framesto rescore current frames, it limits improvements in
+earlyframes. Bi-SeqNMS compensates through reverse linkingoperations;
+therefore, this bidirectional approach enablesbetter optimization than
+Seq-NMS.
+
+\section{4 Conclusion}\label{conclusion}
+
+In this study, we present a deep learning framework designedto enhance
+the spatiotemporal consistency of IA detection,applicable to both 2D-DSA
+and 3D-RA images. Our workaddresses two principal challenges: (1) the
+spatial scale dis-parity between small lesion areas and vast background
+fea-tures, and (2) the frequent lack of spatiotemporal consis-tency in
+detection results. The TFA we proposed is essen-tial for achieving this
+consistency enhancement. First, its in-tegrated feature selection
+mechanism effectively suppressesbackground noise by dynamically
+filtering for high-qualityproposals. Subsequently, FAB utilizes these
+targeted fea-tures from across the sequence to build a temporally
+sta-ble and robust representation for underlying lesions. Finally,our
+proposed Bi-SeqNMS module further refines this con-sistency through
+bidirectional temporal linking. Extensiveexperimental evaluations
+demonstrate that our frameworkachieves superior performance in IA
+detection tasks com-pared to existing methods when applied to DSA
+sequences.These results suggest the potential clinical utility of our
+sys-tem as a decision support tool for IA screening applications.
+
+\section{References}\label{references}
+
+Cai, Z.; and Vasconcelos, N. 2019. Cascade R-CNN: Highquality object
+detection and instance segmentation. IEEEtransactions on pattern
+analysis and machine intelligence,43(5): 1483--1498.
+
+Duan, H.; Huang, Y.; Liu, L.; Dai, H.; Chen, L.; and Zhou,L. 2019.
+Automatic detection on intracranial aneurysm fromdigital subtraction
+angiography with cascade convolutionalneural networks. Biomedical
+engineering online, 18: 1--18.
+
+Faron, A.; Sichtermann, T.; Teichert, N.; Luetkens, J. A.;Keulers, A.;
+Nikoubashman, O.; Freiherr, J.; Mpotsaris, A.;and Wiesmann, M. 2020.
+Performance of a deep-learningneural network to detect intracranial
+aneurysms from 3DTOF-MRA compared to human readers. Clinical
+neurora-diology, 30: 591--598.
+
+Feng, C.; Zhong, Y.; Gao, Y.; Scott, M. R.; and Huang, W.2021. Tood:
+Task-aligned one-stage object detection. In2021 IEEE/CVF International
+Conference on Computer Vi-sion (ICCV), 3490--3499. IEEE Computer
+Society.
+
+Han, W.; Khorrami, P.; Paine, T. L.; Ramachandran, P.;Babaeizadeh, M.;
+Shi, H.; Li, J.; Yan, S.; and Huang, T. S.2016. Seq-nms for video object
+detection. arXiv preprintarXiv:1602.08465.
+
+Hiratsuka, Y.; Miki, H.; Kiriyama, I.; Kikuchi, K.; Taka-hashi, S.;
+Matsubara, I.; Sadamoto, K.; and Mochizuki, T.2008. Diagnosis of
+unruptured intracranial aneurysms: 3TMR angiography versus 64-channel
+multi-detector row CTangiography. Magnetic Resonance in Medical
+Sciences,7(4): 169--178.
+
+Jocher, G.; Qiu, J.; and Chaurasia, A. 2023. YOLOv8 by Ul-tralytics.
+https://github.com/ultralytics/ultralytics. Version8.1.27.
+
+Li, M.-H.; Chen, S.-W.; Li, Y.-D.; Chen, Y.-C.; Cheng, Y.-S.; Hu, D.-J.;
+Tan, H.-Q.; Wu, Q.; Wang, W.; Sun, Z.-K.;et al.~2013. Prevalence of
+unruptured cerebral aneurysms inChinese adults aged 35 to 75 years: a
+cross-sectional study.Annals of internal medicine, 159(8): 514--521.
+
+Lin, T.-Y.; Maire, M.; Belongie, S.; Hays, J.; Perona, P.; Ra-manan, D.;
+Dollar, P.; and Zitnick, C. L. 2014. Microsoft ´coco: Common objects in
+context. In Computer vision--ECCV 2014: 13th European conference,
+zurich, Switzer-land, September 6-12, 2014, proceedings, part v 13,
+740--755. Springer.
+
+Liu, Z.; Lin, Y.; Cao, Y.; Hu, H.; Wei, Y.; Zhang, Z.; Lin,S.; and Guo,
+B. 2021. Swin transformer: Hierarchical vi-sion transformer using
+shifted windows. In Proceedings ofthe IEEE/CVF international conference
+on computer vision,10012--10022.
+
+Mo, Y.; Chen, Y.; Hu, Y.; Xu, J.; Wang, H.; Dai, L.; and Liu,J. 2023.
+Focusing Intracranial Aneurysm Lesion Segmenta-tion by Graph Mask2Former
+with Local Refinement in DSAImages. In 2023 IEEE International
+Conference on Bioin-formatics and Biomedicine (BIBM), 899--903. IEEE.
+
+Piotin, M.; Gailloud, P.; Bidaut, L.; Mandai, S.; Muster, M.;Moret, J.;
+and Rufenacht, D. A. 2003. CT angiography, MR ¨angiography and
+rotational digital subtraction angiography
+
+for volumetric assessment of intracranial aneurysms. An ex-perimental
+study. Neuroradiology, 45: 404--409.
+
+Ren, S.; He, K.; Girshick, R.; and Sun, J. 2016. Faster R-CNN: Towards
+real-time object detection with region pro-posal networks. IEEE
+transactions on pattern analysis andmachine intelligence, 39(6):
+1137--1149.
+
+Rodriguez-Regent, C.; Edjlali-Goujon, M.; Trystram, D.; ´Boulouis, G.;
+Hassen, W. B.; Godon-Hardy, S.; Nataf, F.;Machet, A.; Legrand, L.;
+Ladoux, A.; et al.~2014. Non-invasive diagnosis of intracranial
+aneurysms. Diagnosticand interventional imaging, 95(12): 1163--1174.
+
+Ropper, A. H.; and Zervas, N. T. 1984. Outcome 1 yearafter SAH from
+cerebral aneurysm: management morbidity,mortality, and functional status
+in 112 consecutive good-riskpatients. Journal of neurosurgery, 60(5):
+909--915.
+
+Ross, T.-Y.; and Dollar, G. 2017. Focal loss for dense ob- ´ject
+detection. In proceedings of the IEEE conference oncomputer vision and
+pattern recognition, 2980--2988.
+
+Shen, D.; Wu, G.; and Suk, H.-I. 2017. Deep learning inmedical image
+analysis. Annual review of biomedical engi-neering, 19(1): 221--248.
+
+Shi, Y.; Wang, N.; and Guo, X. 2023. YOLOV: Makingstill image object
+detectors great at video object detection.In Proceedings of the AAAI
+conference on artificial intelli-gence, volume 37, 2254--2262.
+
+Shi, Z.; Miao, C.; Schoepf, U. J.; Savage, R. H.; Dargis,D. M.; Pan, C.;
+Chai, X.; Li, X. L.; Xia, S.; Zhang, X.; et al.2020. A clinically
+applicable deep-learning model for de-tecting intracranial aneurysm in
+computed tomography an-giography images. Nature communications, 11(1):
+6090.
+
+Su, R.; van der Sluijs, M.; Cornelissen, S. A.; Lycklama, G.;Hofmeijer,
+J.; Majoie, C. B.; van Doormaal, P. J.; Van Es,A. C.; Ruijters, D.;
+Niessen, W. J.; et al.~2022. Spatio-temporal deep learning for automatic
+detection of intracra-nial vessel perforation in digital subtraction
+angiographyduring endovascular thrombectomy. Medical image anal-ysis,
+77: 102377.
+
+Tian, Z.; Shen, C.; Chen, H.; and He, T. 2019. Fcos: Fullyconvolutional
+one-stage object detection. In Proceedings ofthe IEEE/CVF international
+conference on computer vision,9627--9636.
+
+Vaswani, A.; Shazeer, N.; Parmar, N.; Uszkoreit, J.; Jones,L.; Gomez, A.
+N.; Kaiser, Ł.; and Polosukhin, I. 2017. At-tention is all you need.
+Advances in neural information pro-cessing systems, 30.
+
+Wu, H.; Chen, Y.; Wang, N.; and Zhang, Z. 2019. Sequencelevel semantics
+aggregation for video object detection. InProceedings of the IEEE/CVF
+international conference oncomputer vision, 9217--9225.
+
+Xu, W.; Yang, H.; Tan, T.; Liu, W.; Gao, F.; Deng, Y.; Pan,X.; and Su,
+R. 2023. Improved YOLOX Framework forAutomatic Large Intracranial Artery
+Stenosis Detection inDigital Subtraction Angiography Images. In 2023
+IEEE In-ternational Conference on Bioinformatics and Biomedicine(BIBM),
+2326--2331. IEEE Computer Society.
+
+Yoon, N. K.; McNally, S.; Taussky, P.; and Park, M. S. 2016.Imaging of
+cerebral aneurysms: a clinical perspective. Neu-rovascular Imaging,
+2(1): 6.
+
+Zeng, Y.; Liu, X.; Xiao, N.; Li, Y.; Jiang, Y.; Feng, J.; andGuo, S.
+2019. Automatic diagnosis based on spatial infor-mation fusion feature
+for intracranial aneurysm. IEEE trans-actions on medical imaging, 39(5):
+1448--1458.
+
+Zhang, J.; Xie, Q.; Mou, L.; Zhang, D.; Chen, D.; Shan,C.; Zhao, Y.; Su,
+R.; and Guo, M. 2025. DSCA: A Digi-tal Subtraction Angiography Sequence
+Dataset and Spatio-Temporal Model for Cerebral Artery Segmentation.
+IEEETransactions on Medical Imaging.
+
+Zhang, J.; Zhao, Y.; Liu, X.; Jiang, J.; and Li, Y. 2023.FSTIF-UNet: a
+deep learning-based method towards au-tomatic segmentation of
+intracranial aneurysms in un-reconstructed 3D-RA. IEEE Journal of
+Biomedical andHealth Informatics, 27(8): 4028--4039.
+
+Zheng, Z.; Wang, P.; Ren, D.; Liu, W.; Ye, R.; Hu, Q.; andZuo, W. 2021.
+Enhancing geometric factors in model learn-ing and inference for object
+detection and instance segmen-tation. IEEE transactions on cybernetics,
+52(8): 8574--8586.
+
+\section{Reproducibility Checklist}\label{reproducibility-checklist}
+
+\section{1. General Paper Structure}\label{general-paper-structure}
+
+1.1. Includes a conceptual outline and/or pseudocode de-scription of AI
+methods introduced (yes/partial/no/NA)yes
+
+1.2. Clearly delineates statements that are opinions, hypoth-esis, and
+speculation from objective facts and results(yes/no) yes
+
+1.3. Provides well-marked pedagogical references for less-familiar
+readers to gain background necessary to repli-cate the paper (yes/no)
+yes
+
+\section{2. Theoretical Contributions}\label{theoretical-contributions}
+
+2.1. Does this paper make theoretical contributions?(yes/no) no
+
+If yes, please address the following points:
+
+2.2. All assumptions and restrictions are stated clearlyand formally
+(yes/partial/no) NA
+
+2.3. All novel claims are stated formally (e.g., in theoremstatements)
+(yes/partial/no) NA
+
+2.4. Proofs of all novel claims are included (yes/par-tial/no) NA
+
+2.5. Proof sketches or intuitions are given for complexand/or novel
+results (yes/partial/no) NA
+
+2.6. Appropriate citations to theoretical tools used aregiven
+(yes/partial/no) NA
+
+2.7. All theoretical claims are demonstrated empiricallyto hold
+(yes/partial/no/NA) NA
+
+2.8. All experimental code used to eliminate or disproveclaims is
+included (yes/no/NA) NA
+
+\section{3. Dataset Usage}\label{dataset-usage}
+
+3.1. Does this paper rely on one or more datasets? (yes/no)yes
+
+If yes, please address the following points:
+
+3.2. A motivation is given for why the experimentsare conducted on the
+selected datasets (yes/par-tial/no/NA) yes
+
+3.3. All novel datasets introduced in this paper are in-cluded in a data
+appendix (yes/partial/no/NA) yes
+
+3.4. All novel datasets introduced in this paper will bemade publicly
+available upon publication of the pa-per with a license that allows free
+usage for researchpurposes (yes/partial/no/NA) no
+
+3.5. All datasets drawn from the existing literature (po-tentially
+including authors' own previously pub-lished work) are accompanied by
+appropriate cita-tions (yes/no/NA) NA
+
+3.6. All datasets drawn from the existing literature(potentially
+including authors' own previouslypublished work) are publicly available
+(yes/par-tial/no/NA) NA
+
+3.7. All datasets that are not publicly available are de-scribed in
+detail, with explanation why publiclyavailable alternatives are not
+scientifically satisficing(yes/partial/no/NA) yes
+
+\section{4. Computational Experiments}\label{computational-experiments}
+
+4.1. Does this paper include computational experiments?(yes/no) yes
+
+If yes, please address the following points:
+
+4.2. This paper states the number and range of valuestried per (hyper-)
+parameter during development ofthe paper, along with the criterion used
+for selectingthe final parameter setting (yes/partial/no/NA) par-tial
+
+4.3. Any code required for pre-processing data is in-cluded in the
+appendix (yes/partial/no) yes
+
+4.4. All source code required for conducting and analyz-ing the
+experiments is included in a code appendix(yes/partial/no) yes
+
+4.5. All source code required for conducting and ana-lyzing the
+experiments will be made publicly avail-able upon publication of the
+paper with a license
+
+that allows free usage for research purposes (yes/-partial/no) no
+
+4.6. All source code implementing new methods havecomments detailing the
+implementation, with refer-ences to the paper where each step comes from
+(yes/-partial/no) yes
+
+4.7. If an algorithm depends on randomness, then themethod used for
+setting seeds is described in a waysufficient to allow replication of
+results (yes/par-tial/no/NA) yes
+
+4.8. This paper specifies the computing infrastructureused for running
+experiments (hardware and soft-ware), including GPU/CPU models; amount
+ofmemory; operating system; names and versions ofrelevant software
+libraries and frameworks (yes/par-tial/no) yes
+
+4.9. This paper formally describes evaluation metricsused and explains
+the motivation for choosing thesemetrics (yes/partial/no) yes
+
+4.10. This paper states the number of algorithm runs usedto compute each
+reported result (yes/no) yes
+
+4.11. Analysis of experiments goes beyond single-dimensional summaries
+of performance (e.g., aver-age; median) to include measures of
+variation, con-fidence, or other distributional information (yes/no)yes
+
+4.12. The significance of any improvement or decrease inperformance is
+judged using appropriate statisticaltests (e.g., Wilcoxon signed-rank)
+(yes/partial/no)yes
+
+4.13. This paper lists all final (hyper-)parameters usedfor each
+model/algorithm in the paper's experiments(yes/partial/no/NA) partial
+
+\end{document}

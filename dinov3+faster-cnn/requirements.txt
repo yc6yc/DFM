@@ -1,0 +1,20 @@
+# Python 依赖包列表
+# DINOv3 + Faster R-CNN 血管狭窄检测
+
+# PyTorch（根据你的 CUDA 版本选择）
+torch>=2.0.0
+torchvision>=0.15.0
+
+# 数据处理
+numpy>=1.24.0
+pillow>=9.5.0
+opencv-python>=4.7.0
+
+# 数据增强
+albumentations>=1.3.0
+
+# 可视化
+matplotlib>=3.7.0
+
+# 工具
+tqdm>=4.65.0

@@ -1,0 +1,1223 @@
+{
+  "config": {
+    "image_dir": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images",
+    "checkpoint_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\outputs\\checkpoints\\latest.pth",
+    "score_threshold": 0.6,
+    "timestamp": "2026-01-18T19:16:35.316914"
+  },
+  "summary": {
+    "total_images": 120,
+    "successful": 120,
+    "failed": 0,
+    "total_detections": 31,
+    "avg_detections_per_image": 0.25833333333333336,
+    "total_inference_time": 35.896,
+    "avg_inference_time": 0.299
+  },
+  "results": [
+    {
+      "image_name": "200_32.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\200_32.jpg",
+      "num_detections": 0,
+      "inference_time": 0.68,
+      "detections": []
+    },
+    {
+      "image_name": "201_22.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\201_22.jpg",
+      "num_detections": 0,
+      "inference_time": 0.348,
+      "detections": []
+    },
+    {
+      "image_name": "201_6.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\201_6.jpg",
+      "num_detections": 0,
+      "inference_time": 0.34,
+      "detections": []
+    },
+    {
+      "image_name": "202_15.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\202_15.jpg",
+      "num_detections": 0,
+      "inference_time": 0.33,
+      "detections": []
+    },
+    {
+      "image_name": "205_25.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\205_25.jpg",
+      "num_detections": 0,
+      "inference_time": 0.292,
+      "detections": []
+    },
+    {
+      "image_name": "206_16.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\206_16.jpg",
+      "num_detections": 1,
+      "inference_time": 0.294,
+      "detections": [
+        {
+          "box": [
+            712.7836303710938,
+            546.7362060546875,
+            760.8601684570312,
+            585.4639892578125
+          ],
+          "label": 1,
+          "label_name": "Vascular Stenosis",
+          "score": 0.6516791582107544
+        }
+      ]
+    },
+    {
+      "image_name": "206_22.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\206_22.jpg",
+      "num_detections": 0,
+      "inference_time": 0.29,
+      "detections": []
+    },
+    {
+      "image_name": "206_32.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\206_32.jpg",
+      "num_detections": 0,
+      "inference_time": 0.291,
+      "detections": []
+    },
+    {
+      "image_name": "207_9.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\207_9.jpg",
+      "num_detections": 0,
+      "inference_time": 0.292,
+      "detections": []
+    },
+    {
+      "image_name": "208_22.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\208_22.jpg",
+      "num_detections": 1,
+      "inference_time": 0.312,
+      "detections": [
+        {
+          "box": [
+            537.7694702148438,
+            671.595458984375,
+            568.8168334960938,
+            703.6248779296875
+          ],
+          "label": 1,
+          "label_name": "Vascular Stenosis",
+          "score": 0.8798317313194275
+        }
+      ]
+    },
+    {
+      "image_name": "209_23.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\209_23.jpg",
+      "num_detections": 0,
+      "inference_time": 0.295,
+      "detections": []
+    },
+    {
+      "image_name": "210_20.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\210_20.jpg",
+      "num_detections": 0,
+      "inference_time": 0.301,
+      "detections": []
+    },
+    {
+      "image_name": "212_11.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\212_11.jpg",
+      "num_detections": 0,
+      "inference_time": 0.298,
+      "detections": []
+    },
+    {
+      "image_name": "212_15.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\212_15.jpg",
+      "num_detections": 1,
+      "inference_time": 0.29,
+      "detections": [
+        {
+          "box": [
+            550.2727661132812,
+            887.1677856445312,
+            584.0813598632812,
+            932.9281616210938
+          ],
+          "label": 1,
+          "label_name": "Vascular Stenosis",
+          "score": 0.9544811844825745
+        }
+      ]
+    },
+    {
+      "image_name": "213_12.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\213_12.jpg",
+      "num_detections": 0,
+      "inference_time": 0.291,
+      "detections": []
+    },
+    {
+      "image_name": "213_31.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\213_31.jpg",
+      "num_detections": 0,
+      "inference_time": 0.297,
+      "detections": []
+    },
+    {
+      "image_name": "214_5.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\214_5.jpg",
+      "num_detections": 0,
+      "inference_time": 0.291,
+      "detections": []
+    },
+    {
+      "image_name": "216_25.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\216_25.jpg",
+      "num_detections": 0,
+      "inference_time": 0.301,
+      "detections": []
+    },
+    {
+      "image_name": "217_127.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\217_127.jpg",
+      "num_detections": 0,
+      "inference_time": 0.291,
+      "detections": []
+    },
+    {
+      "image_name": "217_55.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\217_55.jpg",
+      "num_detections": 0,
+      "inference_time": 0.291,
+      "detections": []
+    },
+    {
+      "image_name": "217_62.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\217_62.jpg",
+      "num_detections": 0,
+      "inference_time": 0.29,
+      "detections": []
+    },
+    {
+      "image_name": "218_17.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\218_17.jpg",
+      "num_detections": 0,
+      "inference_time": 0.297,
+      "detections": []
+    },
+    {
+      "image_name": "219_27.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\219_27.jpg",
+      "num_detections": 1,
+      "inference_time": 0.291,
+      "detections": [
+        {
+          "box": [
+            450.6553039550781,
+            492.30889892578125,
+            491.3905334472656,
+            537.0485229492188
+          ],
+          "label": 1,
+          "label_name": "Vascular Stenosis",
+          "score": 0.9172729849815369
+        }
+      ]
+    },
+    {
+      "image_name": "219_32.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\219_32.jpg",
+      "num_detections": 1,
+      "inference_time": 0.29,
+      "detections": [
+        {
+          "box": [
+            450.7868957519531,
+            494.3365478515625,
+            493.5293884277344,
+            537.048095703125
+          ],
+          "label": 1,
+          "label_name": "Vascular Stenosis",
+          "score": 0.825648844242096
+        }
+      ]
+    },
+    {
+      "image_name": "219_6.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\219_6.jpg",
+      "num_detections": 0,
+      "inference_time": 0.297,
+      "detections": []
+    },
+    {
+      "image_name": "220_0.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\220_0.jpg",
+      "num_detections": 0,
+      "inference_time": 0.285,
+      "detections": []
+    },
+    {
+      "image_name": "223_10.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\223_10.jpg",
+      "num_detections": 0,
+      "inference_time": 0.292,
+      "detections": []
+    },
+    {
+      "image_name": "224_4.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\224_4.jpg",
+      "num_detections": 0,
+      "inference_time": 0.28,
+      "detections": []
+    },
+    {
+      "image_name": "227_29.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\227_29.jpg",
+      "num_detections": 2,
+      "inference_time": 0.29,
+      "detections": [
+        {
+          "box": [
+            476.92144775390625,
+            653.2114868164062,
+            514.7869873046875,
+            696.6987915039062
+          ],
+          "label": 1,
+          "label_name": "Vascular Stenosis",
+          "score": 0.8536777496337891
+        },
+        {
+          "box": [
+            454.20745849609375,
+            699.18212890625,
+            492.6610107421875,
+            739.4691162109375
+          ],
+          "label": 1,
+          "label_name": "Vascular Stenosis",
+          "score": 0.7990366816520691
+        }
+      ]
+    },
+    {
+      "image_name": "228_24.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\228_24.jpg",
+      "num_detections": 3,
+      "inference_time": 0.289,
+      "detections": [
+        {
+          "box": [
+            580.5010375976562,
+            671.3983764648438,
+            617.8346557617188,
+            713.0758666992188
+          ],
+          "label": 1,
+          "label_name": "Vascular Stenosis",
+          "score": 0.8471238017082214
+        },
+        {
+          "box": [
+            548.76513671875,
+            540.282958984375,
+            587.9793701171875,
+            577.091064453125
+          ],
+          "label": 1,
+          "label_name": "Vascular Stenosis",
+          "score": 0.8106905817985535
+        },
+        {
+          "box": [
+            485.1133728027344,
+            483.6223449707031,
+            522.6976928710938,
+            526.7333984375
+          ],
+          "label": 1,
+          "label_name": "Vascular Stenosis",
+          "score": 0.6609561443328857
+        }
+      ]
+    },
+    {
+      "image_name": "228_40.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\228_40.jpg",
+      "num_detections": 0,
+      "inference_time": 0.298,
+      "detections": []
+    },
+    {
+      "image_name": "229_102.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\229_102.jpg",
+      "num_detections": 0,
+      "inference_time": 0.291,
+      "detections": []
+    },
+    {
+      "image_name": "229_29.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\229_29.jpg",
+      "num_detections": 1,
+      "inference_time": 0.285,
+      "detections": [
+        {
+          "box": [
+            468.6837158203125,
+            809.8019409179688,
+            512.8587036132812,
+            854.3822631835938
+          ],
+          "label": 1,
+          "label_name": "Vascular Stenosis",
+          "score": 0.9533360600471497
+        }
+      ]
+    },
+    {
+      "image_name": "229_49.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\229_49.jpg",
+      "num_detections": 1,
+      "inference_time": 0.293,
+      "detections": [
+        {
+          "box": [
+            473.369873046875,
+            817.927978515625,
+            506.262451171875,
+            852.96484375
+          ],
+          "label": 1,
+          "label_name": "Vascular Stenosis",
+          "score": 0.8918882012367249
+        }
+      ]
+    },
+    {
+      "image_name": "229_55.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\229_55.jpg",
+      "num_detections": 1,
+      "inference_time": 0.29,
+      "detections": [
+        {
+          "box": [
+            452.47784423828125,
+            716.84716796875,
+            487.66632080078125,
+            752.8189697265625
+          ],
+          "label": 1,
+          "label_name": "Vascular Stenosis",
+          "score": 0.6820647716522217
+        }
+      ]
+    },
+    {
+      "image_name": "229_73.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\229_73.jpg",
+      "num_detections": 0,
+      "inference_time": 0.3,
+      "detections": []
+    },
+    {
+      "image_name": "230_17.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\230_17.jpg",
+      "num_detections": 0,
+      "inference_time": 0.293,
+      "detections": []
+    },
+    {
+      "image_name": "230_37.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\230_37.jpg",
+      "num_detections": 0,
+      "inference_time": 0.29,
+      "detections": []
+    },
+    {
+      "image_name": "230_7.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\230_7.jpg",
+      "num_detections": 0,
+      "inference_time": 0.292,
+      "detections": []
+    },
+    {
+      "image_name": "232_130.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\232_130.jpg",
+      "num_detections": 2,
+      "inference_time": 0.311,
+      "detections": [
+        {
+          "box": [
+            563.8900146484375,
+            696.7200317382812,
+            598.0321044921875,
+            728.1943969726562
+          ],
+          "label": 1,
+          "label_name": "Vascular Stenosis",
+          "score": 0.7172823548316956
+        },
+        {
+          "box": [
+            530.2228393554688,
+            746.084716796875,
+            569.6253051757812,
+            786.5228271484375
+          ],
+          "label": 1,
+          "label_name": "Vascular Stenosis",
+          "score": 0.6236463189125061
+        }
+      ]
+    },
+    {
+      "image_name": "232_2.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\232_2.jpg",
+      "num_detections": 3,
+      "inference_time": 0.302,
+      "detections": [
+        {
+          "box": [
+            474.5204772949219,
+            814.5861206054688,
+            509.2037658691406,
+            850.3032836914062
+          ],
+          "label": 1,
+          "label_name": "Vascular Stenosis",
+          "score": 0.8647390007972717
+        },
+        {
+          "box": [
+            425.5982971191406,
+            684.2362060546875,
+            453.1526184082031,
+            726.9521484375
+          ],
+          "label": 1,
+          "label_name": "Vascular Stenosis",
+          "score": 0.7454254627227783
+        },
+        {
+          "box": [
+            464.24432373046875,
+            736.9344482421875,
+            501.50048828125,
+            781.6658935546875
+          ],
+          "label": 1,
+          "label_name": "Vascular Stenosis",
+          "score": 0.7305313348770142
+        }
+      ]
+    },
+    {
+      "image_name": "232_77.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\232_77.jpg",
+      "num_detections": 1,
+      "inference_time": 0.301,
+      "detections": [
+        {
+          "box": [
+            486.5330810546875,
+            819.5523071289062,
+            521.5338745117188,
+            857.2409057617188
+          ],
+          "label": 1,
+          "label_name": "Vascular Stenosis",
+          "score": 0.9247477650642395
+        }
+      ]
+    },
+    {
+      "image_name": "233_16.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\233_16.jpg",
+      "num_detections": 0,
+      "inference_time": 0.299,
+      "detections": []
+    },
+    {
+      "image_name": "233_27.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\233_27.jpg",
+      "num_detections": 0,
+      "inference_time": 0.294,
+      "detections": []
+    },
+    {
+      "image_name": "233_29.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\233_29.jpg",
+      "num_detections": 0,
+      "inference_time": 0.297,
+      "detections": []
+    },
+    {
+      "image_name": "235_10.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\235_10.jpg",
+      "num_detections": 0,
+      "inference_time": 0.311,
+      "detections": []
+    },
+    {
+      "image_name": "236_2.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\236_2.jpg",
+      "num_detections": 0,
+      "inference_time": 0.301,
+      "detections": []
+    },
+    {
+      "image_name": "236_33.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\236_33.jpg",
+      "num_detections": 0,
+      "inference_time": 0.3,
+      "detections": []
+    },
+    {
+      "image_name": "237_1.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\237_1.jpg",
+      "num_detections": 0,
+      "inference_time": 0.302,
+      "detections": []
+    },
+    {
+      "image_name": "237_48.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\237_48.jpg",
+      "num_detections": 0,
+      "inference_time": 0.309,
+      "detections": []
+    },
+    {
+      "image_name": "238_12.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\238_12.jpg",
+      "num_detections": 0,
+      "inference_time": 0.29,
+      "detections": []
+    },
+    {
+      "image_name": "238_50.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\238_50.jpg",
+      "num_detections": 0,
+      "inference_time": 0.291,
+      "detections": []
+    },
+    {
+      "image_name": "239_2.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\239_2.jpg",
+      "num_detections": 0,
+      "inference_time": 0.291,
+      "detections": []
+    },
+    {
+      "image_name": "239_43.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\239_43.jpg",
+      "num_detections": 0,
+      "inference_time": 0.291,
+      "detections": []
+    },
+    {
+      "image_name": "240_105.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\240_105.jpg",
+      "num_detections": 0,
+      "inference_time": 0.29,
+      "detections": []
+    },
+    {
+      "image_name": "240_43.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\240_43.jpg",
+      "num_detections": 0,
+      "inference_time": 0.292,
+      "detections": []
+    },
+    {
+      "image_name": "240_56.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\240_56.jpg",
+      "num_detections": 0,
+      "inference_time": 0.293,
+      "detections": []
+    },
+    {
+      "image_name": "240_67.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\240_67.jpg",
+      "num_detections": 0,
+      "inference_time": 0.298,
+      "detections": []
+    },
+    {
+      "image_name": "240_74.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\240_74.jpg",
+      "num_detections": 1,
+      "inference_time": 0.29,
+      "detections": [
+        {
+          "box": [
+            503.9193115234375,
+            452.5270080566406,
+            538.7135009765625,
+            485.6498718261719
+          ],
+          "label": 1,
+          "label_name": "Vascular Stenosis",
+          "score": 0.6663742065429688
+        }
+      ]
+    },
+    {
+      "image_name": "240_84.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\240_84.jpg",
+      "num_detections": 0,
+      "inference_time": 0.291,
+      "detections": []
+    },
+    {
+      "image_name": "242_28.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\242_28.jpg",
+      "num_detections": 1,
+      "inference_time": 0.3,
+      "detections": [
+        {
+          "box": [
+            472.21636962890625,
+            837.6888427734375,
+            505.39324951171875,
+            874.8115234375
+          ],
+          "label": 1,
+          "label_name": "Vascular Stenosis",
+          "score": 0.8137118220329285
+        }
+      ]
+    },
+    {
+      "image_name": "242_41.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\242_41.jpg",
+      "num_detections": 0,
+      "inference_time": 0.31,
+      "detections": []
+    },
+    {
+      "image_name": "244_4.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\244_4.jpg",
+      "num_detections": 0,
+      "inference_time": 0.301,
+      "detections": []
+    },
+    {
+      "image_name": "245_1.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\245_1.jpg",
+      "num_detections": 0,
+      "inference_time": 0.29,
+      "detections": []
+    },
+    {
+      "image_name": "245_28.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\245_28.jpg",
+      "num_detections": 0,
+      "inference_time": 0.29,
+      "detections": []
+    },
+    {
+      "image_name": "246_18.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\246_18.jpg",
+      "num_detections": 0,
+      "inference_time": 0.3,
+      "detections": []
+    },
+    {
+      "image_name": "246_7.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\246_7.jpg",
+      "num_detections": 0,
+      "inference_time": 0.301,
+      "detections": []
+    },
+    {
+      "image_name": "247_204.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\247_204.jpg",
+      "num_detections": 0,
+      "inference_time": 0.281,
+      "detections": []
+    },
+    {
+      "image_name": "247_212.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\247_212.jpg",
+      "num_detections": 0,
+      "inference_time": 0.29,
+      "detections": []
+    },
+    {
+      "image_name": "247_238.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\247_238.jpg",
+      "num_detections": 0,
+      "inference_time": 0.283,
+      "detections": []
+    },
+    {
+      "image_name": "247_309.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\247_309.jpg",
+      "num_detections": 0,
+      "inference_time": 0.288,
+      "detections": []
+    },
+    {
+      "image_name": "247_373.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\247_373.jpg",
+      "num_detections": 0,
+      "inference_time": 0.302,
+      "detections": []
+    },
+    {
+      "image_name": "247_410.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\247_410.jpg",
+      "num_detections": 0,
+      "inference_time": 0.29,
+      "detections": []
+    },
+    {
+      "image_name": "247_414.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\247_414.jpg",
+      "num_detections": 0,
+      "inference_time": 0.291,
+      "detections": []
+    },
+    {
+      "image_name": "247_476.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\247_476.jpg",
+      "num_detections": 0,
+      "inference_time": 0.281,
+      "detections": []
+    },
+    {
+      "image_name": "247_491.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\247_491.jpg",
+      "num_detections": 0,
+      "inference_time": 0.29,
+      "detections": []
+    },
+    {
+      "image_name": "247_541.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\247_541.jpg",
+      "num_detections": 0,
+      "inference_time": 0.291,
+      "detections": []
+    },
+    {
+      "image_name": "247_650.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\247_650.jpg",
+      "num_detections": 0,
+      "inference_time": 0.286,
+      "detections": []
+    },
+    {
+      "image_name": "247_655.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\247_655.jpg",
+      "num_detections": 0,
+      "inference_time": 0.284,
+      "detections": []
+    },
+    {
+      "image_name": "247_660.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\247_660.jpg",
+      "num_detections": 0,
+      "inference_time": 0.302,
+      "detections": []
+    },
+    {
+      "image_name": "247_837.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\247_837.jpg",
+      "num_detections": 0,
+      "inference_time": 0.293,
+      "detections": []
+    },
+    {
+      "image_name": "250_10.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\250_10.jpg",
+      "num_detections": 0,
+      "inference_time": 0.291,
+      "detections": []
+    },
+    {
+      "image_name": "252_18.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\252_18.jpg",
+      "num_detections": 0,
+      "inference_time": 0.29,
+      "detections": []
+    },
+    {
+      "image_name": "253_33.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\253_33.jpg",
+      "num_detections": 0,
+      "inference_time": 0.291,
+      "detections": []
+    },
+    {
+      "image_name": "253_34.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\253_34.jpg",
+      "num_detections": 0,
+      "inference_time": 0.29,
+      "detections": []
+    },
+    {
+      "image_name": "258_5.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\258_5.jpg",
+      "num_detections": 0,
+      "inference_time": 0.291,
+      "detections": []
+    },
+    {
+      "image_name": "259_19.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\259_19.jpg",
+      "num_detections": 1,
+      "inference_time": 0.29,
+      "detections": [
+        {
+          "box": [
+            635.9036254882812,
+            491.7268371582031,
+            666.4356079101562,
+            538.7910766601562
+          ],
+          "label": 1,
+          "label_name": "Vascular Stenosis",
+          "score": 0.840956449508667
+        }
+      ]
+    },
+    {
+      "image_name": "261_36.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\261_36.jpg",
+      "num_detections": 0,
+      "inference_time": 0.291,
+      "detections": []
+    },
+    {
+      "image_name": "263_22.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\263_22.jpg",
+      "num_detections": 0,
+      "inference_time": 0.291,
+      "detections": []
+    },
+    {
+      "image_name": "264_8.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\264_8.jpg",
+      "num_detections": 0,
+      "inference_time": 0.3,
+      "detections": []
+    },
+    {
+      "image_name": "265_54.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\265_54.jpg",
+      "num_detections": 1,
+      "inference_time": 0.303,
+      "detections": [
+        {
+          "box": [
+            598.0075073242188,
+            564.2955932617188,
+            647.9251098632812,
+            615.7577514648438
+          ],
+          "label": 1,
+          "label_name": "Vascular Stenosis",
+          "score": 0.7981603741645813
+        }
+      ]
+    },
+    {
+      "image_name": "266_28.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\266_28.jpg",
+      "num_detections": 1,
+      "inference_time": 0.289,
+      "detections": [
+        {
+          "box": [
+            452.5284423828125,
+            398.1620178222656,
+            605.6343994140625,
+            549.4866333007812
+          ],
+          "label": 1,
+          "label_name": "Vascular Stenosis",
+          "score": 0.6259637475013733
+        }
+      ]
+    },
+    {
+      "image_name": "266_32.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\266_32.jpg",
+      "num_detections": 2,
+      "inference_time": 0.29,
+      "detections": [
+        {
+          "box": [
+            488.19598388671875,
+            391.41400146484375,
+            628.5470581054688,
+            597.61181640625
+          ],
+          "label": 1,
+          "label_name": "Vascular Stenosis",
+          "score": 0.6687312722206116
+        },
+        {
+          "box": [
+            469.2598876953125,
+            413.6242980957031,
+            615.195068359375,
+            536.5149536132812
+          ],
+          "label": 1,
+          "label_name": "Vascular Stenosis",
+          "score": 0.6277506351470947
+        }
+      ]
+    },
+    {
+      "image_name": "268_38.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\268_38.jpg",
+      "num_detections": 0,
+      "inference_time": 0.292,
+      "detections": []
+    },
+    {
+      "image_name": "269_13.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\269_13.jpg",
+      "num_detections": 0,
+      "inference_time": 0.291,
+      "detections": []
+    },
+    {
+      "image_name": "270_48.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\270_48.jpg",
+      "num_detections": 1,
+      "inference_time": 0.31,
+      "detections": [
+        {
+          "box": [
+            522.5452880859375,
+            568.1214599609375,
+            565.1884765625,
+            599.3048095703125
+          ],
+          "label": 1,
+          "label_name": "Vascular Stenosis",
+          "score": 0.6095741391181946
+        }
+      ]
+    },
+    {
+      "image_name": "272_26.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\272_26.jpg",
+      "num_detections": 0,
+      "inference_time": 0.3,
+      "detections": []
+    },
+    {
+      "image_name": "274_1.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\274_1.jpg",
+      "num_detections": 0,
+      "inference_time": 0.3,
+      "detections": []
+    },
+    {
+      "image_name": "275_1.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\275_1.jpg",
+      "num_detections": 0,
+      "inference_time": 0.29,
+      "detections": []
+    },
+    {
+      "image_name": "276_15.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\276_15.jpg",
+      "num_detections": 0,
+      "inference_time": 0.3,
+      "detections": []
+    },
+    {
+      "image_name": "276_26.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\276_26.jpg",
+      "num_detections": 0,
+      "inference_time": 0.301,
+      "detections": []
+    },
+    {
+      "image_name": "276_46.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\276_46.jpg",
+      "num_detections": 0,
+      "inference_time": 0.29,
+      "detections": []
+    },
+    {
+      "image_name": "277_51.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\277_51.jpg",
+      "num_detections": 0,
+      "inference_time": 0.299,
+      "detections": []
+    },
+    {
+      "image_name": "278_8.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\278_8.jpg",
+      "num_detections": 0,
+      "inference_time": 0.292,
+      "detections": []
+    },
+    {
+      "image_name": "279_14.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\279_14.jpg",
+      "num_detections": 0,
+      "inference_time": 0.3,
+      "detections": []
+    },
+    {
+      "image_name": "279_52.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\279_52.jpg",
+      "num_detections": 0,
+      "inference_time": 0.291,
+      "detections": []
+    },
+    {
+      "image_name": "280_19.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\280_19.jpg",
+      "num_detections": 1,
+      "inference_time": 0.29,
+      "detections": [
+        {
+          "box": [
+            407.640625,
+            705.7138061523438,
+            451.68780517578125,
+            743.2697143554688
+          ],
+          "label": 1,
+          "label_name": "Vascular Stenosis",
+          "score": 0.9340898394584656
+        }
+      ]
+    },
+    {
+      "image_name": "282_11.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\282_11.jpg",
+      "num_detections": 0,
+      "inference_time": 0.304,
+      "detections": []
+    },
+    {
+      "image_name": "282_18.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\282_18.jpg",
+      "num_detections": 0,
+      "inference_time": 0.29,
+      "detections": []
+    },
+    {
+      "image_name": "282_21.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\282_21.jpg",
+      "num_detections": 0,
+      "inference_time": 0.301,
+      "detections": []
+    },
+    {
+      "image_name": "283_3.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\283_3.jpg",
+      "num_detections": 0,
+      "inference_time": 0.281,
+      "detections": []
+    },
+    {
+      "image_name": "284_0.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\284_0.jpg",
+      "num_detections": 0,
+      "inference_time": 0.29,
+      "detections": []
+    },
+    {
+      "image_name": "287_12.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\287_12.jpg",
+      "num_detections": 0,
+      "inference_time": 0.291,
+      "detections": []
+    },
+    {
+      "image_name": "289_36.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\289_36.jpg",
+      "num_detections": 0,
+      "inference_time": 0.291,
+      "detections": []
+    },
+    {
+      "image_name": "290_1.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\290_1.jpg",
+      "num_detections": 0,
+      "inference_time": 0.331,
+      "detections": []
+    },
+    {
+      "image_name": "292_17.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\292_17.jpg",
+      "num_detections": 2,
+      "inference_time": 0.303,
+      "detections": [
+        {
+          "box": [
+            407.5176696777344,
+            706.635009765625,
+            449.8217468261719,
+            742.69140625
+          ],
+          "label": 1,
+          "label_name": "Vascular Stenosis",
+          "score": 0.9638145565986633
+        },
+        {
+          "box": [
+            472.0706481933594,
+            694.3734130859375,
+            512.6343383789062,
+            722.504150390625
+          ],
+          "label": 1,
+          "label_name": "Vascular Stenosis",
+          "score": 0.6322105526924133
+        }
+      ]
+    },
+    {
+      "image_name": "293_13.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\293_13.jpg",
+      "num_detections": 1,
+      "inference_time": 0.303,
+      "detections": [
+        {
+          "box": [
+            329.25665283203125,
+            539.8214721679688,
+            362.31805419921875,
+            569.1771850585938
+          ],
+          "label": 1,
+          "label_name": "Vascular Stenosis",
+          "score": 0.7801270484924316
+        }
+      ]
+    },
+    {
+      "image_name": "295_2.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\295_2.jpg",
+      "num_detections": 0,
+      "inference_time": 0.314,
+      "detections": []
+    },
+    {
+      "image_name": "297_6.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\297_6.jpg",
+      "num_detections": 0,
+      "inference_time": 0.302,
+      "detections": []
+    },
+    {
+      "image_name": "298_30.jpg",
+      "image_path": "D:\\Study\\VascularStenosis\\dinov3+faster-cnn\\infer_images\\298_30.jpg",
+      "num_detections": 0,
+      "inference_time": 0.308,
+      "detections": []
+    }
+  ]
+}

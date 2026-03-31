@@ -1,0 +1,8 @@
+src_root: /data1/neu_lab3/yc/SX/data07
+dst_root: /data1/neu_lab3/yc/SX/data07_strict10
+total_cases: 84
+copied_cases_n_eq_target: 49
+resampled_cases_n_lt_target: 34
+bad_cases: 1
+  - 257: no jpg files
+postcheck_errors: 0

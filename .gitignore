@@ -1,6 +1,7 @@
 # My custom ignores
 *.xml
 *.jpg
+*.pth
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]

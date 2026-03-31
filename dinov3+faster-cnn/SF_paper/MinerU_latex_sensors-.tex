@@ -1,0 +1,1268 @@
+% This LaTeX document needs to be compiled with XeLaTeX.
+\documentclass[
+  10
+]{article}
+\usepackage[margin=2cm,includehead=true,includefoot=true,centering,]{geometry}
+\usepackage{xcolor}
+\usepackage{ucharclasses}
+\usepackage{hyperref}
+\usepackage{amsmath,amssymb}
+\usepackage{amsfonts}
+\usepackage[version=4]{mhchem}
+\usepackage{stmaryrd}
+\usepackage{bbold}
+\usepackage{polyglossia}
+\usepackage{fontspec}
+\usepackage{ctex}
+\usepackage[export]{adjustbox}
+\usepackage{tabularx}
+\usepackage{booktabs}
+
+\usepackage{setspace}
+\setstretch{1.2}
+
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{longtable,booktabs,array}
+\newcounter{none} % for unnumbered tables
+\usepackage{multirow}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+
+\hypersetup{colorlinks=true, linkcolor=blue, filecolor=magenta, urlcolor=cyan,}
+\urlstyle{same}
+
+\usepackage{colortbl}
+\definecolor{table-row-color}{HTML}{999999}
+\definecolor{table-rule-color}{HTML}{999999}
+%\arrayrulecolor{black!40}
+\arrayrulecolor{table-rule-color}     % color of \toprule, \midrule, \bottomrule
+\setlength{\aboverulesep}{0pt}
+\setlength{\belowrulesep}{0pt}
+
+
+\setotherlanguages{english}
+\IfFontExistsTF{Source Han Serif CN}
+{\newfontfamily\chinesefont{Source Han Serif CN}}
+{\IfFontExistsTF{Noto Serif CJK SC}
+  {\newfontfamily\chinesefont{Noto Serif CJK SC}}
+  {\IfFontExistsTF{SimSun}
+    {\newfontfamily\chinesefont{SimSun}}
+    {\IfFontExistsTF{FangSong}
+      {\newfontfamily\chinesefont{FangSong}}
+      {\newfontfamily\chinesefont{Arial Unicode MS}}
+}}}
+\IfFontExistsTF{Times New Roman}
+{\newfontfamily\englishfont{Times New Roman}}
+{\IfFontExistsTF{Liberation Serif}
+  {\newfontfamily\englishfont{Liberation Serif}}
+  {\IfFontExistsTF{DejaVu Serif}
+    {\newfontfamily\englishfont{DejaVu Serif}}
+    {\newfontfamily\englishfont{Arial}}
+}}
+
+
+\author{}
+\date{}
+
+\begin{document}
+
+
+Article
+
+\section{SF-YOLOv5: A Lightweight Small Object Detection AlgorithmBased
+on Improved Feature Fusion
+Mode}\label{sf-yolov5-a-lightweight-small-object-detection-algorithmbased-on-improved-feature-fusion-mode}
+
+Haiying Liu 1,*, Fengqian Sun 1, Jason Gu 2 and Lixia Deng 1
+
+1 School of Information and Automation Engineering, Qilu University of
+Technology (Shandong Academyof Sciences), Jinan 250353, China
+
+2 School of Electrical and Computer Engineering, Dalhousie University,
+Halifax, NS B3H 4R2, Canada
+
+\begin{itemize}
+\tightlist
+\item
+  Correspondence: haiyingliu2019@qlu.edu.cn
+\end{itemize}
+
+Abstract: In the research of computer vision, a very challenging problem
+is the detection of smallobjects. The existing detection algorithms
+often focus on detecting full-scale objects, without makingproprietary
+optimization for detecting small-size objects. For small objects dense
+scenes, not onlythe accuracy is low, but also there is a certain waste
+of computing resources. An improved detectionalgorithm was proposed for
+small objects based on YOLOv5. By reasonably clipping the featuremap
+output of the large object detection layer, the computing resources
+required by the model weresignificantly reduced and the model becomes
+more lightweight. An improved feature fusion method(PB-FPN) for small
+object detection based on PANet and BiFPN was proposed, which
+effectivelyincreased the detection ability for small object of the
+algorithm. By introducing the spatial pyramidpooling (SPP) in the
+backbone network into the feature fusion network and connecting with
+themodel prediction head, the performance of the algorithm was
+effectively enhanced. The experimentsdemonstrated that the improved
+algorithm has very good results in detection accuracy and
+real-timeability. Compared with the classical YOLOv5, the
+\(\mathrm { m A P @ 0 . 5 }\) and
+\(\operatorname* { m A P @ 0 . 5 : 0 . 9 5 }\) of SF-YOLOv5
+wereincreased by \(1 . 6 \%\) and \(0 . 8 \%\) , respectively, the
+number of parameters of the network were reduced by\(6 8 . 2 \%\) ,
+computational resources (FLOPs) were reduced by \(1 2 . 7 \%\) , and the
+inferring time of the modewas reduced by \(6 . 9 \%\) .
+
+Keywords: object detection; visual tracking; small object; segmentation
+and categorization; YOLO
+
+\pandocbounded{\includegraphics[keepaspectratio,alt={image}]{images/a83da9e63d693963800fcf7ba55cf7290a97489aa171c4916da0b58a35ace0eb.jpg}}
+
+Citation: Liu, H.; Sun, F.; Gu, J.; Deng,L. SF-YOLOv5: A Lightweight
+SmallObject Detection Algorithm Based onImproved Feature Fusion
+Mode.Sensors 2022, 22, 5817. https://doi.org/10.3390/s22155817
+
+Academic Editor: Steven L.Waslander
+
+Received: 11 July 2022
+
+Accepted: 2 August 2022
+
+Published: 4 August 2022
+
+Publisher's Note: MDPI stays neutralwith regard to jurisdictional claims
+inpublished maps and institutional affil-iations.
+
+\pandocbounded{\includegraphics[keepaspectratio,alt={image}]{images/5317058b5cb7b648af44c23685169cc7f556633633d237c50bb8eab6843154fe.jpg}}
+
+Copyright: © 2022 by the authors.Licensee MDPI, Basel, Switzerland.This
+article is an open access articledistributed under the terms
+andconditions of the Creative CommonsAttribution (CC BY) license
+(https://creativecommons.org/licenses/by/4.0/).
+
+\section{1. Introduction}\label{introduction}
+
+Object detection aims to identify the location, size, spatial
+relationship, and classesof specific targets in images or video
+sequences. It is a cross domain of computer vision,digital image
+processing, and machine vision. It always had high research and
+applicationvalue in face recognition {[}1,2{]}, industrial defect
+detection {[}3{]}, UAV aviation detection {[}4,5{]},traffic and vehicle
+detection {[}6{]}, pedestrian detection and counting {[}7{]}, and other
+fields.
+
+In recent years, with the update and iteration of high-performance GPUs,
+the con-tinuous emergence and improvement of various large-scale
+datasets (such as DOTA {[}8{]},ImageNet {[}9{]}, COCO {[}10{]}) and the
+strong rise of neural networks based on convolutional,object detection
+algorithms using deep learning techniques have become the mainstreamof
+contemporary object detection technology.
+
+The current common object detection algorithms can be divided into
+two-stage al-gorithm and one-stage detection algorithm according to
+whether candidate regions aregenerated or not. The representative
+algorithms of the former are: RCNN {[}11{]}, SPP(SpacePyramid
+Pooling)-Net {[}12{]}, Fast-RCNN {[}13{]}, Faster-RCNN {[}14{]},
+Mask-RCNN {[}15{]}, etc. Thelatter mainly includes YOLO (YOLOv1
+{[}16{]}, YOLOv2 {[}17{]}, YOLOv3 {[}18{]}, YOLOv4 {[}19{]},YOLOv5
+{[}20{]}, etc.) and SSD {[}21{]} algorithm. Although the two-stage
+algorithms can reachhigh accuracy, the prolonged time of detection makes
+it hard to satisfy the real-time require-ment in daily object detection
+scenarios. Because it has the advantages of high precision
+
+and fast speed, the one-stage detection algorithm has become the
+research focus in thestudy of object detection.
+
+For early versions of object detection algorithms, for example, YOLOv1
+{[}16{]}, YOLOv2 {[}17{]},etc., its network structure is often the
+stacking of multiple convolution layers and the full-connection layer.
+Only the feature map of a fixed size is calculated, which greatly
+limitedthe multi-scale detection ability of the model. On this occasion,
+the detection accuracy of thealgorithm for small targets is not ideal.
+
+In the case of solving the above problems, an effective method is to
+adopt the imagepyramid strategy {[}22{]}, which can enhance the
+multi-scale detection ability of the model;however, the high
+computational cost and inference speed limit the development of theimage
+pyramid strategy in an object detection algorithm.
+
+Based on the aforementioned methods, FPN {[}23{]} up-samples the feature
+map andthen fuses it with the corresponding output in the backbone
+network in this process, andgenerates multiple new feature maps for
+final detection. This modification improved thefeature expression
+ability of the algorithm and further improved the effect of the
+algorithmbased on real-time detection and multi-scale detection ability.
+Meanwhile, FPN adoptedthe top-down feature fusion path, which also
+strengthened the small object detectionperformance of the algorithm.
+
+Due to the excellent performance of FPN, adding a feature fusion network
+after thebackbone network of the model become the mainstream
+configuration of object detectionalgorithms. For example, YOLOv3
+{[}18{]}, YOLOv4 {[}19{]}, and YOLOv5 {[}20{]}, all use FPN as afeature
+fusion network. The subsequent NAS-FPN {[}24{]}, ASFF {[}25{]}, PANet
+{[}26{]}, BiFPN {[}27{]},and so on have achieved better results through
+various feature fusion paths, but their basicideas are the same as that
+of FPN.
+
+Through the combination of well-designed backbones and feature fusion
+networks,the current object detection algorithms can ensure the
+detection accuracy and real-timecapability, and have the ability to
+detect various scales objects; however, for the specific de-sign, these
+algorithms often focus on various complex life scenarios. Their original
+purposeis to guarantee that the mathematical model has perfect
+generalization and detection abilityfor targets with different scales,
+but ignore the detection optimization in some specificscale scenes. In
+this context, designing a simple, efficient, lightweight, and
+easy-to-deployalgorithm for small object detection has important study
+significance.
+
+YOLOv5 is the latest version of the YOLO series algorithms. Based on
+YOLOv5, thisresearch has invented an improved YOLOv5 algorithm for small
+object detection withthe name SF(Small-Fast)-YOLOv5, which can not only
+significantly reduce the number ofparameters and calculated amount of
+the model, but also has better performance comparedwith the original
+version in the small object detection direction.
+
+The major innovations and contributions of this research are as follows:
+
+In the default network structure of YOLOv5, the network layer that
+originally used togenerate the large object detection feature map has
+been reasonably clipped. Whilerealizing the lightweight model, the
+computing resources required by the model areeffectively released and
+the speed of the model is greatly improved.
+
+Based on the PANet {[}26{]} and BiFPN {[}27{]}, a new feature fusion
+method (PB-FPN) forsmall object detection is proposed, which improved
+the detection performance of thealgorithm for small targets.
+
+The (SPP {[}12{]}) layer at the end of the backbone network is
+introduced into the featurefusion network and connected with multiple
+prediction heads to improve the featureexpression ability of the final
+output feature map and further enhance the ability ofthe algorithm.
+
+The other parts of this paper are arranged as follows: Section 2
+introduces the ba-sic idea and network structure of the classical
+algorithm YOLOv5; Section 3 illustratesthe improvement strategy of
+SF-YOLOv5 in detail; Section 4 presents the experimentalenvironment,
+dataset selection, experimental result analysis, ablation experiment,
+algo-
+
+rithm comparison, and algorithm generalization ability test; Finally,
+Section 5 provides theconclusion, and introduces follow-up work and
+improvement direction.
+
+\section{2. Relevant Work}\label{relevant-work}
+
+\section{2.1. Some Classical
+Algorithms}\label{some-classical-algorithms}
+
+The detection of small objects belongs to the problem of abnormal scale
+in objectdetection. Most of the classical algorithms are full-size
+detection algorithms, that is, thealgorithm itself will give priority to
+ensuring the detection ability of objects of varioussizes, and make
+various optimizations for small object detection on this basis.
+Commonoptimization strategies include the using of image pyramids
+{[}22{]} or FPN {[}23{]}. Addingmore detection heads {[}4{]} can also
+attain a good effect, although it will greatly increase thecalculation
+cost.
+
+At present, common detection algorithms (such as {[}11--21{]}, etc.)
+have been introduced.In addition, the latest YOLOv7 {[}28{]} (which is
+still under update) and various improvedalgorithms based on ResNet
+{[}29,30{]} also have excellent performance.
+
+YOLOv5 is an algorithm with high reliability and stability, and it is
+easy to deploy andtrain. At the same time, it is also one of the
+one-stage detection algorithms with the highestaccuracy at present;
+therefore, in this paper, we choose YOLOv5 for subsequent improve-ment.
+
+\section{2.2. Basic Idea of YOLOv5}\label{basic-idea-of-yolov5}
+
+YOLOv5 continues the consistent idea of the YOLO series in algorithm
+design: namely,the image to be detected was processed through a input
+layer (input) and sent to thebackbone for feature extraction. The
+backbone obtains feature maps of different sizes, andthen fuses these
+features through the feature fusion network (neck) to finally
+generatethree feature maps P3, P4, and P5 (in the YOLOv5, the dimensions
+are expressed withthe size of \(8 0 \times 8 0\) , \(4 0 \times 4 0\)
+and \(2 0 \times 2 0\) ) to detect small, medium, and large objects
+inthe picture, respectively. After the three feature maps were sent to
+the prediction head(head), the confidence calculation and bounding-box
+regression were executed for eachpixel in the feature map using the
+preset prior anchor, so as to obtain a multi-dimensionalarray (BBoxes)
+including object class, class confidence, box coordinates, width, and
+heightinformation. By setting the corresponding thresholds
+(confthreshold, objthreshold) tofilter the useless information in the
+array, and performing a non-maximum suppression(NMS {[}31{]}) process,
+the final detection information can be output. The process of
+convertingthe input picture into BBoxes is called the inference process,
+and the subsequent thresholdand NMS operations are called
+post-processing. The post-processing does not involvethe network
+structure. The default inference process of YOLOv5 can be represented
+byFigure 1.
+
+\pandocbounded{\includegraphics[keepaspectratio,alt={image}]{images/40dae9d57914a6acaf0649be2027477d5bc3c02799c5d7f58d34d912f1b354f7.jpg}}
+
+Figure 1. The default inference flowchart of YOLOv5.
+
+In the details of bounding-box regression, different from the previous
+version of YOLOalgorithm, the process of YOLOv5 can be explained by (1).
+
+\[
+g _ {x} = 2 \sigma (s _ {x}) - 0. 5 + r _ {x}
+\]
+
+\[
+\begin{array}{l} g _ {y} = 2 \sigma \left(s _ {y}\right) - 0. 5 + r _ {y} \\ g _ {h} = p _ {h} \left(2 \sigma \left(s _ {h}\right)\right) ^ {2} \end{array} \tag {1}
+\]
+
+\[
+g _ {w} = p _ {w} \left(2 \sigma \left(s _ {w}\right)\right) ^ {2}
+\]
+
+In the above formula, set the coordinate value of the upper left corner
+of the featuremap to (0, 0). \(r _ { x }\) and \(r _ { y }\) are the
+unadjusted coordinates of the predicted center point.
+\(g _ { x } ,\)\(g _ { y } , g _ { w } , g _ { h }\) represents the
+information of the adjusted prediction box. \(p _ { w }\) and
+\(p _ { h }\) are for theinformation of the prior anchor. \(s _ { x }\)
+and \(s _ { y }\) represents the offset calculated by the model.The
+process of adjusting the center coordinate and size of the preset prior
+anchor to thecenter coordinate and size of the final prediction box is
+called bounding-box regression.There are five versions of YOLOv5, namely
+YOLOv5x, YOLOv5l, YOLOv5m, YOLOv5s,and YOLOv5n. The performance of each
+version is shown in Table 1.
+
+Table 1. Comprehensive performance of five versions of YOLOv5 on COCO
+dataset {[}20{]}.
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}|l|l|l|l|l|l|l|l|l|@{}}
+\toprule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\hline
+Model & Size (Pixels) & mAP @0.5:0.95 & mAP @0.5 & Time CPU b1 (ms) &
+Time V100 b1 (ms) & Time V100 b32 (ms) & Params (M) & FLOPS @640 (B) \\
+\hline
+YOLOv5n & 640 & 28.0 & 45.7 & 45 & 6.6 & 0.6 & 1.9 & 4.5 \\
+\hline
+YOLOv5s & 640 & 37.4 & 56.8 & 98 & 6.4 & 0.9 & 7.2 & 16.5 \\
+\hline
+YOLOv5m & 640 & 45.4 & 64.1 & 224 & 8.2 & 1.7 & 21.2 & 49.0 \\
+\hline
+YOLOv5l & 640 & 49.0 & 67.3 & 430 & 10.1 & 2.7 & 46.5 & 109.1 \\
+\hline
+YOLOv5x & 640 & 50.7 & 68.9 & 766 & 12.1 & 4.8 & 86.7 & 205.7 \\
+\hline
+\end{longtable}
+}
+
+In this paper, for the comprehensive consideration of computing
+resources, modelparameters, detection accuracy, deployment ability, and
+algorithm practicability, we choseYOLOv5s as the basic algorithm and
+made subsequent improvements and contributionsaround it.
+
+\section{2.3. Network Structure of
+YOLOv5}\label{network-structure-of-yolov5}
+
+Generally speaking, the network structure of YOLOv5 refers to the
+backbone and neck.
+
+\section{2.3.1. Backbone}\label{backbone}
+
+The backbone of YOLOv5 is shown in Figure 2. The main structure is the
+stacking ofmultiple CBS (Conv \(^ +\) BatchNorm \(^ +\) SiLU) modules
+and C3 modules, and finally one SPPFmodule is connected. CBS module is
+used to assist C3 module in feature extraction, whileSPPF module
+enhances the feature expression ability of the backbone.
+
+\pandocbounded{\includegraphics[keepaspectratio,alt={image}]{images/edd0bbef14899b9ecce232145326b1b417daad4fd7fd89ac48d4693f168b0629.jpg}}
+
+Figure 2. Default network structure of YOLOv5.
+
+Therefore, in the backbone of YOLOv5, the most important layer is the C3
+module.The basic idea of C3 comes from CSPNet (cross stage partial
+networks {[}32{]}). C3 can actuallybe regarded as the specific
+implementation of CSPNet. YOLOv5 uses the idea of CSPNetto build the C3
+module, which not only ensures that the backbone has excellent
+featureextraction ability, but also curbs the problem of gradient
+information duplication in thebackbone.
+
+\section{2.3.2. Neck}\label{neck}
+
+In the neck, YOLOv5 uses the methods of FPN {[}23{]} and PAN {[}26{]},
+as shown in Figure 3.The basic idea of FPN is to up-sampling the output
+feature map (C3, C4, and C5) generatedby multiple convolution down
+sampling operations from the feature extraction network togenerate
+multiple new feature maps (P3, P4, and P5) for detecting different
+scales targets.
+
+\pandocbounded{\includegraphics[keepaspectratio,alt={image}]{images/9cc6afbe6776beedba79748a5d1768a95c65c139b6a00b175db1c2cd696550c2.jpg}}
+
+Figure 3. The dotted line in the figure is the default feature fusion
+path of YOLOv5.
+
+The feature fusion path of FPN is top-down. On this basis, PAN
+reintroduces a newbottom-up feature fusion path, which further enhance
+the detection accuracy for differentscales objects.
+
+\section{3. Approach}\label{approach}
+
+The performance of YOLOv5 algorithm is very excellent for object
+detection, but whenthe scenario is full of small targets, the detected
+results cannot obtain ideal results, so thereis still has large room for
+improvement. In order to solve these issues, some questionswere
+proposed:
+
+YOLOv5's feature extraction network set three different sizes of feature
+map outputfor detection scenes of various scales. The process of
+obtaining the feature maprequires multiple convolution down sampling
+operations, which takes up a lot ofcomputing resources and parameters;
+however, in the actual detection for smalltargets, is the down sampling
+operation and feature fusion process for high-levelfeature map
+necessary?
+
+The feature fusion network of YOLOv5 combined a top-down path (FPN) with
+abottom-up path (PAN), which enhances the detection performance on
+various scaleobjects; however, for dense small object scenes, can we set
+a new feature fusion pathto improve the feature expression potential of
+the output feature map? Can we fusefeatures horizontally to further
+enhance the detection performance of the algorithm?
+
+YOLOv5 adds an SPPF module at the end of the backbone, which improves
+theperformance of the feature extraction network through multiple
+convolution andpooling operations with different sizes. Can we use this
+idea to further tap the featureexpression potential of the feature map
+in the end of the neck?
+
+Aiming at the above three questions, we proposed a novel small object
+detection algo-rithm: SF(Small-Fast)-YOLOv5. In the multiple down
+sampling process of the backbone,in order to bring about the
+lightweightness of the algorithm, we canceled the default C5(fifth
+convolution down sampling operation) layer, and made corresponding
+adjustmentsin the feature fusion part, leaving only the C3 and C4
+feature maps for feature fusion. In thepart of the neck, based on PANet
+and BiFPN, we redesigned a new small object detection
+
+feature fusion path (PB-FPN), which aims to strengthen the fusion effect
+of the model on theunderlying features and strengthen the small object
+detection performance. Meanwhile, weintroduce the SPPF module that
+originally existed only in the backbone at the connectionbetween the
+neck and the head, which further tapped the feature expression potential
+ofthe output feature maps.
+
+\section{3.1. Feature Map Clipping}\label{feature-map-clipping}
+
+YOLOv5 outputed three sizes of feature maps by default, which are used
+to predictthe large, medium, and small objects, respectively. The way to
+obtain these feature mapsis to carry out continuous convolution down
+sampling operations and feature fusionprocesses. Table 2 shows the
+numerical visualization results of YOLOv5 default featureextraction
+network.
+
+Table 2. Parameter of backbone in YOLOv5 network structure.
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}|l|l|l|l|l|l|@{}}
+\toprule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\hline
+C & From & n & Params & Module & Arguments \\
+\hline
+0 & -1 & 1 & 3520 & CBS & {[}3, 32, 6, 2, 2{]} \\
+\hline
+1 & -1 & 1 & 18,560 & CBS & {[}32, 64, 3, 2{]} \\
+\hline
+2 & -1 & 1 & 18,816 & C3 & {[}64, 64, 1{]} \\
+\hline
+3 & -1 & 1 & 73,984 & CBS & {[}64, 128, 3, 2{]} \\
+\hline
+4 & -1 & 2 & 115,712 & C3 & {[}128, 128, 2{]} \\
+\hline
+5 & -1 & 1 & 295,424 & CBS & {[}128, 256, 3, 2{]} \\
+\hline
+6 & -1 & 3 & 625,152 & C3 & {[}256, 256, 3{]} \\
+\hline
+7 & -1 & 1 & 1,180,672 & CBS & {[}256, 512, 3, 2{]} \\
+\hline
+8 & -1 & 1 & 1,182,720 & C3 & {[}512, 512, 1{]} \\
+\hline
+9 & -1 & 1 & 656,896 & SPPF & {[}512, 512, 5{]} \\
+\hline
+\end{longtable}
+}
+
+As shown in Table 2, C represents the position of the module, From
+\(^ { - 1 }\) indicates thatthe input of this layer comes from the
+previous layer, n indicates the amount of modules,params indicates the
+parameter usage of this layer, module indicates the name of the mod-ule,
+arguments represent the input channel value, output channel value, and
+convolutionkernel attribute, respectively. The 7 and 8 layers indicates
+the C5 sampling layer in the fea-ture extraction network; as can be
+seen, the sampling layer occupies enormous parameters.
+
+In the proposed mathematical model, for the purpose of being
+lightweight, the defaultC5 feature map of the traditional YOLOv5 is
+deleted. The feature map clipping corre-sponding to the improved method
+in this section can be represented by the flowchart inFigure 4.
+
+\pandocbounded{\includegraphics[keepaspectratio,alt={image}]{images/1177682839fec199f1fbd351573c182d8a51e75779d39e15636e664ef28856ed.jpg}}
+
+Figure 4. The inference flowchart of SF-YOLOv5. The backbone has been
+cut accordingly, correspond-ing to the improvement method proposed in
+Section 3.1, neck (PBS) represents a new feature fusionnetwork with
+PB-FPN and SPPF prediction head, which corresponds to the methods
+described inSections 3.2 and 3.3 of the improved algorithm in this
+paper.
+
+\section{3.2. Improvement for Feature Fusion Path
+(PB-FPN)}\label{improvement-for-feature-fusion-path-pb-fpn}
+
+Early object detection algorithms usually used the high-level feature
+map that gen-erated by multiple down sampling operations for detection,
+which will make the modelunable to effectively predict objects of
+various scales. The introduction of FPN {[}23{]} solvesthis problem
+well, and its basic process is shown in Figure 5b.
+
+\pandocbounded{\includegraphics[keepaspectratio,alt={image}]{images/7e857d8989ccbfc2c185fae9f6357849eb7afa4cd0b718b54a270b93f4fc9f47.jpg}}
+
+\begin{enumerate}
+\def\labelenumi{(\alph{enumi})}
+\tightlist
+\item
+  Default
+\end{enumerate}
+
+\pandocbounded{\includegraphics[keepaspectratio,alt={image}]{images/74beaa7866122a96878ceea3971ab77d963d85853f7d989085ec3c339439f27d.jpg}}
+
+\begin{enumerate}
+\def\labelenumi{(\alph{enumi})}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  FPN
+\end{enumerate}
+
+\pandocbounded{\includegraphics[keepaspectratio,alt={image}]{images/9cefd1d12a50bd483943fc5456d54fda6170a3ee52c806a183f7db528288758a.jpg}}
+
+\begin{enumerate}
+\def\labelenumi{(\alph{enumi})}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  PAN
+\end{enumerate}
+
+\pandocbounded{\includegraphics[keepaspectratio,alt={image}]{images/93192fd31bfd7665d2cfe18f47537fffd11bee931aa5d3740a52c5bee5d92783.jpg}}
+
+\begin{enumerate}
+\def\labelenumi{(\alph{enumi})}
+\setcounter{enumi}{3}
+\tightlist
+\item
+  BiFPN
+\end{enumerate}
+
+Figure 5. Some common feature fusion paths.
+
+Taking the P4 node in Figure 5d as an example:
+
+\[
+P _ {4} ^ {t d} = \operatorname {C o n v} \left(\frac {w _ {1} \cdot P _ {4} ^ {i n} + w _ {2} \cdot \operatorname {R e s i z e} \left(P _ {5} ^ {i n}\right)}{w _ {1} + w _ {2} + \varepsilon}\right) \tag {2}
+\]
+
+\[
+P _ {4} ^ {\text {o u t}} = \operatorname {C o n v} \left(\frac {w _ {1} ^ {\prime} \cdot P _ {4} ^ {\text {i n}} + w _ {2} ^ {\prime} \cdot P _ {4} ^ {\text {t d}} + w _ {3} ^ {\prime} \cdot \operatorname {R e s i z e} \left(P _ {3} ^ {\text {o u t}}\right)}{w _ {1} ^ {\prime} + w _ {2} ^ {\prime} + w _ {3} ^ {\prime} + \varepsilon}\right) \tag {3}
+\]
+
+In the (2) and (3), \(P _ { 4 } ^ { t d }\) represents the intermediate
+feature map between C4 and P4, \(P _ { 4 } ^ { i n }\)and
+\(P _ { 4 } ^ { o u t }\) 4 4correspond to C4 and P4 respectively, Conv
+and Resize correspond to convolutionand sampling operation respectively,
+\(w\) and ε represent weight and a preset small value toavoid numerical
+instability, which is usually set to 0.0001.
+
+Based on the previous analysis, we designed an improved feature fusion
+path, asshown in Figure 6:
+
+\pandocbounded{\includegraphics[keepaspectratio,alt={image}]{images/8f2fd7e257f84657057c59544141b814881cdb3e70a812064c83d4ba12e19577.jpg}}
+
+\begin{enumerate}
+\def\labelenumi{(\alph{enumi})}
+\tightlist
+\item
+  Default PB-FPN
+\end{enumerate}
+
+\pandocbounded{\includegraphics[keepaspectratio,alt={image}]{images/ae5f4336855747e45e3bb76aac59df159e5f36e742269a347188e8af6970ac96.jpg}}
+
+\begin{enumerate}
+\def\labelenumi{(\alph{enumi})}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  PB-FPN after cutting C5
+\end{enumerate}
+
+Figure 6. The feature fusion path of PB-FPN.
+
+Compared with the classical algorithms PANet {[}26{]} and BiFPN
+{[}27{]}, this sectionadditionally introduces a new feature fusion path
+to further integrate the features from thehigh-level into the bottom.
+Meanwhile, new branches are set horizontally to participatein the fusion
+process of the bottom, which further enhances the detection effect of
+thealgorithm for small targets.
+
+\section{3.3. The Improved Feature Fusion Network
+(SPPF)}\label{the-improved-feature-fusion-network-sppf}
+
+The latest version of YOLOv5 used the SPPF (SPP-Fast) module. Compared
+with theoriginal SPP module, its structure comparison is shown in Figure
+7. By simplifying thepooling process, SPPF avoided the repeated
+operation of SPP and significantly improvedthe running speed of the
+module.
+
+\pandocbounded{\includegraphics[keepaspectratio,alt={image}]{images/768359bc742a3969c7bd8a3a0456147c72932ef963f96ec52a489faca62dfa86.jpg}}
+
+\begin{enumerate}
+\def\labelenumi{(\alph{enumi})}
+\tightlist
+\item
+  SPPF
+\end{enumerate}
+
+\pandocbounded{\includegraphics[keepaspectratio,alt={image}]{images/847dc863a52810440da66cb23880073450f26e9f8aff4dd7ed1c9d430c06b99f.jpg}}
+
+\begin{enumerate}
+\def\labelenumi{(\alph{enumi})}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  SPP
+\end{enumerate}
+
+Figure 7. Structure comparison of SPPF and SPP.
+
+In this paper, we introduced several SPPF modules at the connection
+between thefeature fusion network and the model prediction head, in
+order to further tap the featureexpression potential of the finally
+output feature map by the neck and sent to the head, andfurther enhance
+the performance of the model. The modified network in this section can
+beexpressed in Figure 8.
+
+\pandocbounded{\includegraphics[keepaspectratio,alt={image}]{images/ac178bce89ae4050bdf97d5d4ef0458f8960bfbdbdb961950e3a898815c66b94.jpg}}
+
+Figure 8. Structure diagram after adding SPPF at the junction of feature
+fusion network and predic-tion head.
+
+\section{4. Experiments}\label{experiments}
+
+\section{4.1. Experimental Environment}\label{experimental-environment}
+
+In this experiment, the workstation is win10, 16 GB, the CPU is used
+AMD-4800H,the GPU is used Nvidia-Rtx2060. The algorithm is based on
+PyTorch, using CUDA11.1 tooperation acceleration. The training epoch is
+set to 300, and the mosaic data enhancementand a prior anchor adaptive
+adjustment strategy are used.
+
+\section{4.2. Dataset Introduction}\label{dataset-introduction}
+
+In order to testify the performance of the improved algorithm
+(SF-YOLOv5) for thesmall object detection, this study adopted the WIDER
+FACE {[}33{]} dataset to train and verifythe algorithm. This dataset
+contains the annotation information of 393,703 faces. As shownin Figure
+9, the dataset is highly variable in scale, posture, angle, light, and
+occlusion. Thedataset is complex and includes a great quantity of dense
+small targets.
+
+Scale
+
+\pandocbounded{\includegraphics[keepaspectratio,alt={image}]{images/2e732552f81187b63e07b1d2cefd51df53bfcc9b5ca5fc9b6e4d45c7402e49fb.jpg}}
+
+Pose
+
+\pandocbounded{\includegraphics[keepaspectratio,alt={image}]{images/dbba54665d8ac8e92e91fb967cbde60e6e2b0cd4f18c6eff29b9f58122d8613b.jpg}}
+
+Occlusion
+
+\pandocbounded{\includegraphics[keepaspectratio,alt={image}]{images/07fd662c0e120a43232ebf100f94c415e70893653b6964905dd19b1250795fe1.jpg}}
+
+Expression
+
+\pandocbounded{\includegraphics[keepaspectratio,alt={image}]{images/571d0881c55e4eb9a09c9b710902fa13a0de74c707ea6ff021987c9979afdb57.jpg}}
+
+Makeup
+
+\pandocbounded{\includegraphics[keepaspectratio,alt={image}]{images/b99a58791abe899c605fe26a564073b97d3cdd070905f955691d783e08c530a4.jpg}}
+
+Illumination
+
+\pandocbounded{\includegraphics[keepaspectratio,alt={image}]{images/d40beb48aca735890494062461412c549b42e6c1baaafe5a6b7c07ad21539a12.jpg}}
+
+Figure 9. The WIDER FACE dataset contains a variety of complex and rich
+scenes {[}33{]}.
+
+Considering that the SF-YOLOv5 mainly detects small objects, while the
+originalWIDER FACE dataset contains not only small targets, but also
+large targets, which willaffect the experimental results; therefore, we
+first screened according to the number andsize of face images in a
+single image in the original dataset. In total, 4441 images were usedto
+train the algorithm and 1123 images were used to verify the algorithm.
+The numberproportion of the train and verify was 4:1, same as the
+original dataset. Figure 10 is anattribute visualization result of the
+new dataset.
+
+\pandocbounded{\includegraphics[keepaspectratio,alt={image}]{images/261150ae917a4dca95ec15909ae3207951c521fed35283f02427d2c842d4ac36.jpg}}
+
+(a)the number of dataset labels
+
+\pandocbounded{\includegraphics[keepaspectratio,alt={image}]{images/f25ffbef3f809614371ab8d16910f71fd4af190ef1596361fccdd0badd7c823a.jpg}}
+
+(b)the label location of dataset
+
+\pandocbounded{\includegraphics[keepaspectratio,alt={image}]{images/f450d1804abf3ced12c55d5d4e923a60ba08e0f959786d78def718f67ebdb652.jpg}}
+
+(c)the label size of dataset
+
+Figure 10. The attribute visualization results of the dataset used in
+this paper.
+
+Figure 10a expressed the number of labels in the dataset. Figure 10b
+shows thecentral coordinate position of the object. Figure 10c shows the
+size of the object. It can beseen that this dataset is sufficient to
+ensure the training and verification of small objectdetection algorithm.
+
+\section{4.3. Evaluation Criterion}\label{evaluation-criterion}
+
+At present, the mainstream general indicators for evaluating the
+performance of objectdetection algorithms include precision, recall, AP
+(average precision), mAP (mean AP),parameters(the number of parameters
+in model), FLOPs (floating point operations persecond), inference time,
+etc.
+
+Considering that mAP can more reasonably reflect the accuracy of the
+algorithm thanprecision and recall, in this experiment, we choose mAP
+\(@ 0 . 5\) , mAP@0.5:0.95, parameters,FLOPs, and inference time to
+evaluate the algorithm.
+
+\section{4.4. Analysis of Experimental
+Results}\label{analysis-of-experimental-results}
+
+The experimental performance comparison between YOLOv5s and SF-YOLOv5
+isillustrated in Table 3. Compared with the traditional algorithm
+YOLOv5s, the mAP@0.5 andmAP@0.5:0.95 of SF-YOLOv5 has been increased by
+1.6 and 0.8, respectively, which provedthe improvement in comprehensive
+detection performance of SF-YOLOv5. At the sametime, the parameters (M)
+value and FLOPs (G) value of SF-YOLOv5 are reduced by \(6 8 . 2 \%\)and
+\(1 2 . 7 \%\) , respectively, indicating that SF-YOLOv5 can further
+decrease the number ofparameters and lessen computing power required for
+model operation under the conditionof improving the detection accuracy,
+which enhances the deployment performance of thealgorithm on various
+low-end workstations and small mobile devices. The reduction ininference
+time (ms) shows that the model can process more images and videos in the
+sametime, which ensures the speed of SF-YOLOv5 in detecting small
+objects.
+
+\section{4.5. Ablation Experiment}\label{ablation-experiment}
+
+Table 3 expressed the ablation experimental data of improved methods 1,
+2, and 3proposed in this paper. YOLOv5-N5 is a new algorithm obtained by
+cutting the featurelayer with the default YOLOv5, which corresponds to
+the improved method 1 proposed inthis paper. It is not difficult to find
+that although this improvement has increased by 0.2in mAP@0.5, the value
+of mAP@0.5:0.95 has decreased by 0.2. The calculation formula ofGIOU
+{[}34{]} used by YOLOv5 is shown in (4).
+
+\[
+L = 1 - I o U + \frac {\left| A - P \cup P ^ {g t} \right|}{\left| A \right|} \tag {4}
+\]
+
+where \(P\) and \(P ^ { g t }\) express the area of the prediction box
+and ground truth box, respectively,and \(A\) is the minimum area of the
+area composed of \(P\) and \(P ^ { g t }\) . We hope the value of \(L\)
+tobe infinitely close to 0. In this case, the lower the value of IOU,
+the lower the requirementfor the position coincidence when verifying the
+accuracy of the algorithm.
+
+Table 3. Performance comparison of SF-YOLOv5 and other algorithms on
+small object datasets.
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}|l|l|l|l|l|l|l|@{}}
+\toprule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\hline
+Methods & Size & mAP@0.5 & mAP@0.5:0.95 & Parameters (M) & FLOPs (G) &
+Inference Time (ms) \\
+\hline
+YOLOv5s & 640 & 69.7 & 35.5 & 7.01 & 15.8 & 13.1 \\
+\hline
+YOLOv5-N5 & 640 & 69.9 & 35.3 & 1.88 & 11.2 & 10.4 \\
+\hline
+YOLOv5-PB & 640 & 70.8 & 36.0 & 2.03 & 12.7 & 11.3 \\
+\hline
+SF-YOLOv5 & 640 & 71.3 & 36.3 & 2.23 & 13.8 & 12.2 \\
+\hline
+improvement & - & +1.6 & +0.8 & -68.2\% & -12.7\% & -6.9\% \\
+\hline
+YOLOv5n & 640 & 63.9 & 30.8 & 1.76 & 4.20 & 8.60 \\
+\hline
+SF-YOLOv5 & 640 & 71.3 & 36.3 & 2.23 & 13.8 & 12.2 \\
+\hline
+improvement & - & +7.4 & +5.5 & +26.7\% & +228.6\% & +41.9\% \\
+\hline
+YOLOv7-tiny & 640 & 68.4 & 33.0 & 6.01 & 13.0 & 13.9 \\
+\hline
+SF-YOLOv5 & 640 & 71.3 & 36.3 & 2.23 & 13.8 & 12.2 \\
+\hline
+improvement & - & +2.9 & +3.3 & -62.9\% & +6.2\% & -12.2\% \\
+\hline
+YOLOv3 & 640 & 74.5 & 39.5 & 61.5 & 154.7 & 44.7 \\
+\hline
+SF-YOLOv5L & 640 & 75.1 & 39.7 & 15.5 & 91.2 & 49.4 \\
+\hline
+improvement & - & +0.6 & +0.2 & -74.8\% & -41.0\% & +10.5\% \\
+\hline
+YOLOv7 & 640 & 76.1 & 39.5 & 36.5 & 103.2 & 18.0 \\
+\hline
+SF-YOLOv5L & 640 & 75.1 & 39.7 & 15.5 & 91.2 & 49.4 \\
+\hline
+improvement & - & -1.0 & +0.2 & -57.5\% & -11.6\% & +174.4\% \\
+\hline
+ResNeXt-CSP & 640 & 73.7 & 37.6 & 31.8 & 58.9 & 32.6 \\
+\hline
+SF-YOLOv5L & 640 & 75.1 & 39.7 & 15.5 & 91.2 & 49.4 \\
+\hline
+improvement & - & +1.4 & +2.1 & -51.3\% & +54.8\% & +51.5\% \\
+\hline
+\end{longtable}
+}
+
+It can be seen from Table 3 and formula (4), the improved method 1 can
+achievesignificant weight improvements after removing the high-level
+feature map. Although thedetection performance has been slightly
+affected: the model can identify more objects; theposition of the
+prediction box will deviate to a certain extent.
+
+YOLOv5-PB is a new algorithm obtained by setting the feature fusion path
+as PB-FPNon the basis of the improved method 1, corresponding to the
+improved method 2 in thispaper. Compared with YOLOv5-N5, this algorithm
+slightly increases the computationalresources and number of parameters,
+but greatly enhances the detection accuracy, the valueof
+\(\mathrm { m A P @ 0 . 5 }\) and mAP@0.5:0.95 by 0.9 and 0.7,
+respectively. It proves the feasibility ofintroducing a more efficient
+feature fusion path to enhance the ability of algorithm.
+
+The final SF-YOLOV5 was obtained by adding SPPF module at the junction
+betweenthe neck and head of YOLOV5-PB, corresponding to the improved
+method 3. Comparedwith the improved method 2, YOLOV5-PB slightly
+increases the number of parameters andfurther enhances the detection
+accuracy of the algorithm.
+
+Figure 11 shows the visualization of ablation experimental data of
+improved methods1, 2, and 3. Figure 12 shows the detection results of
+SF-YOLOv5.
+
+\pandocbounded{\includegraphics[keepaspectratio,alt={image}]{images/8c5ced4ff494869817e2c76a1f5a10fc0c9ca49f75168b8f242652c81ddce725.jpg}}
+
+(a)mAP@0.5
+
+\pandocbounded{\includegraphics[keepaspectratio,alt={image}]{images/c52bff19510d84a0f0a952668a7c727921368fe59bce9f814763fbd76462e2b0.jpg}}
+
+(b)mAP@0.5:0.95
+
+\pandocbounded{\includegraphics[keepaspectratio,alt={image}]{images/5ebb02bccce762633deade1daca8256f074e440dddc943510592d29006339b16.jpg}}
+
+(c)Loss
+
+Figure 11. The ablation experimental results of the improved methods 1,
+2, and 3.
+
+\pandocbounded{\includegraphics[keepaspectratio,alt={image}]{images/a6c470c56c016b5fa9f2e9347799d04d13ef5058488f477d31c0e668d4f6b0b8.jpg}}
+
+Figure 12. Detection effect of SF-YOLOv5 on WIDER FACE dataset.
+
+\section{4.6. Comparison with Other Classical
+Algorithms}\label{comparison-with-other-classical-algorithms}
+
+We compare SF-YOLOv5 with several classical detection algorithms, and
+the resultsare expressed in Table 3. Among them, YOLOv5n is the latest
+lightweight algorithm ofYOLOv5, and YOLOv3 is a relatively mature
+large-scale one-stage detection algorithm.YOLOv7 {[}28{]} is the latest
+algorithm of YOLO family at present, which has the
+strongestcomprehensive performance in full-scale detection, and
+YOLOv7-tiny is a lightweightversion of YOLOv7, which has similar
+parameter quantities and calculation quantitieswith SF-YOLOv5.
+ResNeXt-CSP is a new detector combined with classical algorithmsResNeXt
+{[}29{]} and CSPNet {[}32{]}, which have excellent performance. It is
+not difficult to findthat although YOLOv5n is lighter and faster, the
+detection accuracy is too low comparedwith SF-YOLOv5. Compared with
+YOLOv7-tiny, SF-YOLOv5 has advantages in detectionaccuracy, speed, and
+lightweight effect in the small object dataset, but it slightly
+increasesthe amount of calculation.
+
+Because YOLOv3, YOLOv7, and ResNeXt-CSP are not lightweight algorithms,
+it isdifficult to directly compare with SF-YLOv5, so we adjusted the
+scaling coefficient of SF-YOLOv5. This operation is adopted in YOLOv4,
+YOLOv5, and YOLOv7. The default value(0.33, 0.25) is adjusted to the
+same (1, 1) as YOLOv7. The adjusted SF-YOLOv5 was namedSF-YOLOv5L. It
+has the same network structure and improvement idea as SF-YOLOv5,and the
+only difference is in the model size. The comparison of these algorithms
+is shownin Table 3. On the whole, SF-YOLOv5L is better than YOLOv3,
+ResNeXt-CSP, and itsperformance is close to that of the latest YOLOv7.
+This proved the feasibility and reliabilityof the improved method
+proposed in this paper.
+
+\section{4.7. Performance of Novel SF-YOLOv5 on Other
+Datasets}\label{performance-of-novel-sf-yolov5-on-other-datasets}
+
+In this section, we further prove the ability of SF-YOLOv5 on other
+datasets, so asto judge whether the improvement made by SF-YOLOv5 in the
+direction of small objectdetection is universal.
+
+TinyPerson {[}35{]}, VisDrone {[}36{]}, and VOC2012 {[}37,38{]} public
+datasets were selectedfor testing experiment in this section. Among
+them, TinyPerson and VisDrone contain alarge number of small targets,
+which is suitable for the verification of SF-YOLOv5 proposedin this
+paper. Because there are not only small targets, but also a large number
+of largetargets in VOC2012, it is mainly used to verify the performance
+of improved methods 2and 3 proposed in this paper in the full-scale
+detection; therefore, in the experiment forVOC2012, we fine tuned the
+prediction head of SF-YOLOv5 and re added the P5 detectionhead. The
+algorithm is named SF-YOLOv5-P5. Table 4 shows the performance
+comparisonof SF-YOLOv5 and YOLOv5s on these datasets.
+
+Table 4. Performance comparison between YOLOv5s and SF-YOLOv5 on other
+datasets.
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}llllllll@{}}
+\toprule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Dataset & Methods & Size & mAP@0.5 & mAP@0.5:0.95 & Parameters (M) &
+FLOPs (G) & Inference Time (ms) \\
+\multirow{3}{*}{TinyPerson} & YOLOv5s & 640 & 18.7 & 6.0 & 7.02 & 15.8 &
+12.8 \\
+& SF-YOLOv5 & 640 & 20.0 & 6.5 & 2.23 & 13.8 & 11.0 \\
+& improvement & - & +1.3 & +0.5 & -68.2\% & -12.7\% & -14.1\% \\
+\multirow{3}{*}{VisDrone} & YOLOv5s & 640 & 33.0 & 17.9 & 7.04 & 15.9 &
+12.6 \\
+& SF-YOLOv5 & 640 & 34.3 & 18.2 & 2.24 & 13.8 & 11.5 \\
+& improvement & - & +1.3 & +0.3 & -68.2\% & -13.2\% & -8.7\% \\
+\multirow{3}{*}{VOC2012} & YOLOv5s & 640 & 60.8 & 37.0 & 7.06 & 15.9 &
+25.8 \\
+& SF-YOLOv5-P5 & 640 & 61.2 & 38.3 & 4.59 & 15.7 & 24.8 \\
+& improvement & - & +0.4 & +1.3 & -34.9\% & -1.3\% & -3.9\% \\
+\end{longtable}
+}
+
+To sum up, SF-YOLOv5 still achieved improvement in detection accuracy
+and compre-hensive performance on TinyPerson, VisDrone and VOC2012
+datasets. It is proved that theimproved methods 1, 2, and 3 have obvious
+improvement effect in the direction for smallobject detection and have
+certain versatility in full-scale detection. Other experimentalresults
+in this section are shown in Figures 13 and 14.
+
+\pandocbounded{\includegraphics[keepaspectratio,alt={image}]{images/cb452bc277c9ffcc8341ffc046d271856557f691d7c5fca2d03a3304a06c3c32.jpg}}
+
+\begin{enumerate}
+\def\labelenumi{(\alph{enumi})}
+\tightlist
+\item
+  TinyPerson
+\end{enumerate}
+
+\pandocbounded{\includegraphics[keepaspectratio,alt={image}]{images/9a18bb5ad1ed477c0c368bfab1fcaa274a25686a783efb15fe61973afa931f72.jpg}}
+
+\begin{enumerate}
+\def\labelenumi{(\alph{enumi})}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  VisDrone
+\end{enumerate}
+
+\pandocbounded{\includegraphics[keepaspectratio,alt={image}]{images/0210c8fc55e9926cd9ce82519cdb3a1b0df653e8e9dcdc871c119417fa190caa.jpg}}
+
+\begin{enumerate}
+\def\labelenumi{(\alph{enumi})}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  VOC2012
+\end{enumerate}
+
+Figure 13. Comparison of detection accuracy between SF-YOLOv5 and
+YOLOv5s on other datasets.
+
+\pandocbounded{\includegraphics[keepaspectratio,alt={image}]{images/2b2d2dff51632b56456c0aa4c008d98b3b2b8115c04fce13684c999c42277772.jpg}}
+
+\pandocbounded{\includegraphics[keepaspectratio,alt={image}]{images/5c795e6bc7b73a9fba0479fbf00f11e7fa76f29eb44ffca6d931d4284ac6bf45.jpg}}
+
+\pandocbounded{\includegraphics[keepaspectratio,alt={image}]{images/38005e8b39650441db71674d84c10202081715022b815ca63300820e47a83e29.jpg}}
+
+Figure 14. Detection effect of SF-YOLOv5 on other dataset.
+
+\section{5. Conclusions}\label{conclusions}
+
+In this paper, a lightweight small object detection algorithm based on
+an improvedfeature fusion mode is proposed, which is dedicated to
+improving the detection effect onsmall targets. When the algorithm is
+significantly lighter, the detection accuracy is alsosignificantly
+improved. By reducing the convolution down sampling operation in
+thenetwork structure and trimming the output feature map, the model
+parameter amountand computation amount are significantly reduced under
+the premise of ensuring thedetection accuracy. Ablation experiments show
+that the contribution of high-level featuremaps generated by multiple
+convolution downsampling can be replaced by more effectivefeature fusion
+methods when detecting small objects. Besides this, in order to
+improvethe small object detection accuracy of the model, a new feature
+fusion method (PB-FPN)is proposed based on PANet and BiFPN. By setting a
+fast SPP operation at the junctionof the neck and the head, the feature
+expression potential of the output feature map ofthe backbone is fully
+exploited, and the detection performance of the algorithm is further
+
+improved. The revised model has good generalization ability and can also
+be applied tosmall object detection scenarios of other types of targets.
+
+In the follow-up research, we will continue to improve the detection
+effect of thealgorithm on ultra-small targets, and we will further
+explore the detection potential ofthe small object detection feature
+fusion method (PB-FPN) proposed in this paper onfull-scale targets.
+
+Author Contributions: Supervision, H.L.; Writing---original draft, F.S.;
+Writing---review and editing,J.G.; Validation, L.D. All authors have
+read and agreed to the published version of the manuscript.
+
+Funding: This research was funded by QLUTGJHZ2018019.
+
+Conflicts of Interest: The authors declare no conflict of interest.
+
+\section{References}\label{references}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Kowalski, M.; Grudzie ´n, A.; Mierzejewski, K. Thermal--Visible Face
+  Recognition Based on CNN Features and Triple TripletConfiguration for
+  On-the-Move Identity Verification. Sensors 2022, 22, 5012.
+  {[}CrossRef{]} {[}PubMed{]}
+\item
+  Zhang, Z.; Shen, W.; Qiao, S.; Wang, Y.; Wang, B.; Yuille, A. Robust
+  face detection via learning small faces on hard images. InProceedings
+  of the IEEE/CVF Winter Conference on Applications of Computer Vision
+  (WACV), Snowmass Village, CO, USA,1--5 March 2020; pp.~1361--1370.
+\item
+  Bai, T.; Gao, J.; Yang, J.; Yao, D. A study on railway surface defects
+  detection based on machine vision. Entropy 2021, 23,
+  1437.{[}CrossRef{]} {[}PubMed{]}
+\item
+  Zhu, X.; Lyu, S.; Wang, X.; Zhao, Q. TPH-YOLOv5: Improved YOLOv5 based
+  on transformer prediction head for object detectionon drone-captured
+  scenarios. In Proceedings of the IEEE/CVF International Conference on
+  Computer Vision (ICCV), Montreal,BC, Canada, 11--17 October 2021;
+  pp.~2778--2788.
+\item
+  Zhang, P.; Zhong, Y.; Li, X. SlimYOLOv3: Narrower, faster and better
+  for real-time UAV applications. In Proceedings of theIEEE/CVF
+  International Conference on Computer Vision (ICCV), Seoul, Korea,
+  27--28 October 2019.
+\item
+  Gu, Y.; Si, B. A novel lightweight real-time traffic sign detection
+  integration framework based on YOLOv4. Entropy 2022, 24,
+  487.{[}CrossRef{]} {[}PubMed{]}
+\item
+  Liu, W.; Liao, S.; Ren, W.; Hu, W.; Yu, Y. High-level semantic feature
+  detection: A new perspective for pedestrian detection.In Proceedings
+  of the IEEE/CVF Conference on Computer Vision and Pattern Recognition
+  (CVPR), Long Beach, CA, USA,16--20 June 2019; pp.~5187--5196.
+\item
+  Xia, G.S.; Bai, X.; Ding, J.; Zhu, Z.; Belongie, S.; Luo, J.; Datcu,
+  M.; Pelillo, M.; Zhang, L. DOTA: A large-scale dataset for
+  objectdetection in aerial images. In Proceedings of the IEEE
+  Conference on Computer Vision and Pattern Recognition (CVPR), SaltLake
+  City, UT, USA, 18--23 June 2018; pp.~3974--3983.
+\item
+  Deng, J.; Dong, W.; Socher, R.; Li, L.J.; Li, K.; Fei-Fei, L.
+  Imagenet: A large-scale hierarchical image database. In Proceedings
+  ofthe IEEE Conference on Computer Vision and Pattern Recognition
+  (CVPR), Miami, FL, USA, 20--25 June 2009; pp.~248--255.
+\item
+  Lin, T.Y.; Maire, M.; Belongie, S.; Hays, J.; Perona, P.; Ramanan, D.;
+  Dollár, P.; Zitnick, C.L. Microsoft coco: Common objects incontext. In
+  Proceedings of the European Conference on Computer Vision (ECCV),
+  Zurich, Switzerland, 6--12 September 2014;pp.~740--755.
+\item
+  Girshick, R.; Donahue, J.; Darrell, T.; Malik, J. Rich feature
+  hierarchies for accurate object detection and semantic segmentation.In
+  Proceedings of the IEEE Conference on Computer Vision and Pattern
+  Recognition (CVPR), Columbus, OH, USA, 23--28 June2014; pp.~580--587.
+\item
+  He, K.; Zhang, X.; Ren, S.; Sun, J. Spatial pyramid pooling in deep
+  convolutional networks for visual recognition. IEEE Trans.Pattern
+  Anal. Mach. Intell. 2015, 37, 1904--1916. {[}CrossRef{]} {[}PubMed{]}
+\item
+  Girshick, R. Fast R-CNN. In Proceedings of the IEEE International
+  Conference on Computer Vision (ICCV), Santiago, Chile,7--13 December
+  2015; pp.~1440--1448.
+\item
+  Ren, S.; He, K.; Girshick, R.; Sun, J. Faster r-cnn: Towards real-time
+  object detection with region proposal networks. Adv. NeuralInf.
+  Process. Syst. 2015, 28, 91--99. {[}CrossRef{]} {[}PubMed{]}
+\item
+  He, K.; Gkioxari, G.; Dollár, P.; Girshick, R. Mask r-cnn. In
+  Proceedings of the IEEE International Conference on Computer
+  Vision(ICCV), Venice, Italy, 22--29 October 2017; pp.~2961--2969.
+\item
+  Redmon, J.; Divvala, S.; Girshick, R.; Farhadi, A. You only look once:
+  Unified, real-time object detection. In Proceedings of theIEEE
+  Conference on Computer Vision and Pattern Recognition (CVPR), Las
+  Vegas, NV, USA, 27--30 June 2016; pp.~779--788.
+\item
+  Redmon, J.; Farhadi, A. YOLO9000: Better, faster, stronger. In
+  Proceedings of the IEEE Conference on Computer Vision andPattern
+  Recognition (CVPR), Honolulu, HI, USA, 21--26 July 2017;
+  pp.~7263--7271.
+\item
+  Redmon, J.; Farhadi, A. Yolov3: An incremental improvement. arXiv
+  2018, arXiv:1804.02767.
+\item
+  Bochkovskiy, A.; Wang, C.Y.; Liao, H.Y.M. Yolov4: Optimal speed and
+  accuracy of object detection. arXiv 2020, arXiv:2004.10934.
+\item
+  Glenn, J. Yolov5-6.1---TensorRT, TensorFlow Edge TPU and OpenVINO
+  Export and Inference. 2022. Available online:
+  https://github.com/ultralytics/yolov5/releases/tag/v6.1 (accessed on
+  22 February 2022).
+\item
+  Liu, W.; Anguelov, D.; Erhan, D.; Szegedy, C.; Reed, S.; Fu, C.Y.;
+  Berg, A.C. Ssd: Single shot multibox detector. In Proceedings ofthe
+  European conference on computer vision (ECCV), Amsterdam, The
+  Netherlands, 11--14 October 2016; pp.~21--37.
+\item
+  Singh, B.; Davis, L.S. An analysis of scale invariance in object
+  detection snip. In Proceedings of the IEEE Conference on
+  ComputerVision and Pattern Recognition (CVPR), Salt Lake City, UT,
+  USA, 18--23 June 2018; pp.~3578--3587.
+\item
+  Lin, T.Y.; Dollár, P.; Girshick, R.; He, K.; Hariharan, B.; Belongie,
+  S. Feature pyramid networks for object detection. In Proceedingsof the
+  IEEE Conference on Computer Vision and Pattern Recognition (CVPR),
+  Honolulu, HI, USA, 21--26 July 2017; pp.~2117--2125.
+\item
+  Ghiasi, G.; Lin, T.Y.; Le, Q.V. Nas-fpn: Learning scalable feature
+  pyramid architecture for object detection. In Proceedingsof the
+  IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR),
+  Long Beach, CA, USA, 16--20 June 2019;pp.~7036--7045.
+\item
+  Liu, S.; Huang, D.; Wang, Y. Learning spatial fusion for single-shot
+  object detection. arXiv 2019, arXiv:1911.09516.
+\item
+  Liu, S.; Qi, L.; Qin, H.; Shi, J.; Jia, J. Path aggregation network
+  for instance segmentation. In Proceedings of the IEEE Conferenceon
+  Computer Vision and Pattern Recognition (CVPR), Salt Lake City, UT,
+  USA, 18--23 June 2018; pp.~8759--8768.
+\item
+  Tan, M.; Pang, R.; Le, Q.V. Efficientdet: Scalable and efficient
+  object detection. In Proceedings of the IEEE/CVF Conference onComputer
+  Vision and Pattern Recognition (CVPR), Seattle, WA, USA, 13--19 June
+  2020; pp.~10781--10790.
+\item
+  Wang, C.Y.; Bochkovskiy, A.; Liao, H.Y.M. YOLOv7: Trainable
+  bag-of-freebies sets new state-of-the-art for real-time
+  objectdetectors. arXiv 2022, arXiv:2207.02696.
+\item
+  Xie, S.; Girshick, R.; Dollar, P.; Tu, Z.; He, K. Aggregated Residual
+  Transformations for Deep Neural Networks. In Proceedingsof the 2017
+  IEEE Conference on Computer Vision and Pattern Recognition (CVPR),
+  Honolulu, HI, USA, 21--26 July 2017;pp.~1492--1500.
+\item
+  Zhou, T.; Zhao, Y.; Wu, J. Resnext and res2net structures for speaker
+  verification. In Proceedings of the 2021 IEEE SpokenLanguage
+  Technology Workshop (SLT), Shenzhen, China, 19--22 January 2021;
+  pp.~301--307.
+\item
+  Neubeck, A.; Van Gool, L. Efficient non-maximum suppression. In
+  Proceedings of the 18th International Conference on PatternRecognition
+  (ICPR'06), Hong Kong, China, 20--24 August 2006; Volume 3,
+  pp.~850--855.
+\item
+  Wang, C.Y.; Liao, H.Y.M.; Wu, Y.H.; Chen, P.Y.; Hsieh, J.W.; Yeh, I.H.
+  CSPNet: A new backbone that can enhance learningcapability of CNN. In
+  Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern
+  Recognition (CVPR), Seattle,WA, USA, 13--19 June 2020; pp.~390--391.
+\item
+  Yang, S.; Luo, P.; Loy, C.C.; Tang, X. Wider face: A face detection
+  benchmark. In Proceedings of the IEEE Conference on ComputerVision and
+  Pattern Recognition (CVPR), Las Vegas, NV, USA, 27--30 June 2016;
+  pp.~5525--5533.
+\item
+  Rezatofighi, H.; Tsoi, N.; Gwak, J.; Sadeghian, A.; Reid, I.;
+  Savarese, S. Generalized intersection over union: A metric and a
+  lossfor bounding box regression. In Proceedings of the IEEE/CVF
+  Conference on Computer Vision and Pattern Recognition (CVPR),Long
+  Beach, CA, USA, 16--20 June 2019; pp.~658--666.
+\item
+  Yu, X.; Gong, Y.; Jiang, N.; Ye, Q.; Han, Z. Scale match for tiny
+  person detection. In Proceedings of the IEEE/CVF WinterConference on
+  Applications of Computer Vision (WACV), Snowmass Village, CO, USA,
+  1--5 March 2020; pp.~1257--1265.
+\item
+  Zhu, P.; Wen, L.; Du, D.; Bian, X.; Fan, H.; Hu, Q.; Ling, H.
+  Detection and Tracking Meet Drones Challenge. IEEE Trans. PatternAnal.
+  Mach. Intell. 2021. {[}CrossRef{]} {[}PubMed{]}
+\item
+  Everingham, M.; Van Gool, L.; Williams, C.K.I.; Winn, J.; Zisserman,
+  A. The PASCAL Visual Object Classes Challenge 2012(VOC2012) Results.
+  Available online:
+  http://www.pascal-network.org/challenges/VOC/voc2012/workshop/index.html(accessed
+  on 30 July 2022).
+\item
+  Tong, K.; Wu, Y.; Zhou, F. Recent advances in small object detection
+  based on deep learning: A review. Image Vis. Comput. 2020,97, 103910.
+  {[}CrossRef{]}
+\end{enumerate}
+
+\end{document}

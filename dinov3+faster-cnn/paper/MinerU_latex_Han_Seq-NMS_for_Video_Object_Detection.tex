@@ -1,0 +1,648 @@
+% This LaTeX document needs to be compiled with XeLaTeX.
+\documentclass[
+  10
+]{article}
+\usepackage[margin=2cm,includehead=true,includefoot=true,centering,]{geometry}
+\usepackage{xcolor}
+\usepackage{ucharclasses}
+\usepackage{hyperref}
+\usepackage{amsmath,amssymb}
+\usepackage{amsfonts}
+\usepackage[version=4]{mhchem}
+\usepackage{stmaryrd}
+\usepackage{bbold}
+\usepackage{polyglossia}
+\usepackage{fontspec}
+\usepackage{ctex}
+\usepackage[export]{adjustbox}
+\usepackage{tabularx}
+\usepackage{booktabs}
+
+\usepackage{setspace}
+\setstretch{1.2}
+
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{longtable,booktabs,array}
+\newcounter{none} % for unnumbered tables
+\usepackage{multirow}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+
+\hypersetup{colorlinks=true, linkcolor=blue, filecolor=magenta, urlcolor=cyan,}
+\urlstyle{same}
+
+\usepackage{colortbl}
+\definecolor{table-row-color}{HTML}{999999}
+\definecolor{table-rule-color}{HTML}{999999}
+%\arrayrulecolor{black!40}
+\arrayrulecolor{table-rule-color}     % color of \toprule, \midrule, \bottomrule
+\setlength{\aboverulesep}{0pt}
+\setlength{\belowrulesep}{0pt}
+
+
+\setotherlanguages{english}
+\IfFontExistsTF{Source Han Serif CN}
+{\newfontfamily\chinesefont{Source Han Serif CN}}
+{\IfFontExistsTF{Noto Serif CJK SC}
+  {\newfontfamily\chinesefont{Noto Serif CJK SC}}
+  {\IfFontExistsTF{SimSun}
+    {\newfontfamily\chinesefont{SimSun}}
+    {\IfFontExistsTF{FangSong}
+      {\newfontfamily\chinesefont{FangSong}}
+      {\newfontfamily\chinesefont{Arial Unicode MS}}
+}}}
+\IfFontExistsTF{Times New Roman}
+{\newfontfamily\englishfont{Times New Roman}}
+{\IfFontExistsTF{Liberation Serif}
+  {\newfontfamily\englishfont{Liberation Serif}}
+  {\IfFontExistsTF{DejaVu Serif}
+    {\newfontfamily\englishfont{DejaVu Serif}}
+    {\newfontfamily\englishfont{Arial}}
+}}
+
+
+\author{}
+\date{}
+
+\begin{document}
+
+
+\section{Seq-NMS for Video Object
+Detection}\label{seq-nms-for-video-object-detection}
+
+Wei Han1∗, Pooya Khorrami1∗, Tom Le Paine1∗, Prajit
+Ramachandran1,Mohammad Babaeizadeh1, Honghui Shi1, Jianan Li2Shuicheng
+Yan2, Thomas S. Huang1
+
+1University of Illinois at Urbana-Champaign\{weihan3, pkhorra2, paine1,
+prmchnd2mb2, hshi10, t-huang1\}@illinois.edu2National University of
+Singapore\{elev373, eleyans\}@nus.edu.sg
+
+\section{Abstract}\label{abstract}
+
+Video object detection is challenging because objects that are easily
+detected inone frame may be difficult to detect in another frame within
+the same clip. Re-cently, there have been major advances for doing
+object detection in a single im-age. These methods typically contain
+three phases: (i) object proposal generation(ii) object classification
+and (iii) post-processing. We propose a modification ofthe
+post-processing phase that uses high-scoring object detections from
+nearbyframes to boost scores of weaker detections within the same clip.
+We show thatour method obtains superior results to state-of-the-art
+single image object detec-tion techniques. Our method placed
+\(3 ^ { r d }\) in the video object detection (VID) taskof the ImageNet
+Large Scale Visual Recognition Challenge 2015 (ILSVRC2015).
+
+\section{1 Introduction}\label{introduction}
+
+Single image object detection has experienced large performance gains in
+the last few years. Videoobject detection, on the other hand, still
+remains an open problem. This is mainly because objectsthat are easily
+detected in one frame may be difficult to detect in another frame within
+the same videoclip. There are many reasons that may cause this
+difficulty. Some examples include: (i) drastic scalechanges (ii)
+occlusion and (iii) motion blur. In this work we propose a simple
+extension of singleimage object detection to help overcome these
+difficulties.
+
+Current state-of-the-art single image object detection systems can be
+broken up into three distinctphases: (i) region proposal generation (ii)
+object classification and (iii) post-processing. During theregion
+proposal generation phase, a set of candidate regions are generated
+based on how likely theyare to contain an object. Previous region
+proposal methods were based on low-level image features{[}11, 16{]}
+while the current state-of-the-art, Faster R-CNN, {[}9{]} learns to
+generate proposals using aneural network. The candidate regions are then
+assigned a class score in the object classificationphase, and redundant
+detections are subsequently filtered in the post-processing phase.
+
+While effective, single image methods are na¨ıve because they completely
+ignore the temporal dimen-sion. In this work, we incorporate temporal
+information during the post-processing phase in order torefine the
+detections within each individual frame. Given a video sequence of
+region proposals andtheir corresponding class scores, our method
+associates bounding boxes in adjacent frames using asimple overlap
+criterion. It then selects boxes to maximize a sequence score. Those
+boxes are thenused suppress overlapping boxes in their respective frames
+and are subsequently rescored in orderto boost weaker detections.
+
+\pandocbounded{\includegraphics[keepaspectratio,alt={image}]{images/f9f2109201d160e0ca3f7974293bb136803b87c3ab48f5344f60768072eb9a1c.jpg}}
+
+Figure 1: Illustration of Seq-NMS. Seq-NMS takes as input all object
+proposals boxes B and scoresS for an entire video clip V (in contrast to
+NMS which takes proposals from a single image). It isapplied
+iteratively. At each iteration it performs three steps: 1) Sequence
+Selection, which selectsthe sequence of boxes with the highest sequence
+score, \(\mathbf { B } ^ { s e q }\) . 2) Sequence Re-scoring, which
+takesall scores in the sequence
+\(\mathbf { S } ^ { s e q ^ { \prime } }\) and applies a function to
+them to get a new score for each frame inthe sequence
+\(\mathbf { S } ^ { s e q }\) . 3) Suppression, which for each box in
+\(\mathbf { B } ^ { s e q }\) , suppresses any boxes in the sameframe
+that have sufficient overlap.
+
+The main contributions of our work are as follows:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  We present Seq-NMS, a method to improve object detection pipelines for
+  video data.Specifically, we modify the post-processing phase to use
+  high-scoring object detectionsfrom nearby frames in order to boost
+  scores of weaker detections within the same clip.
+\item
+  We evaluate Seq-NMS on the ImageNet VID dataset and show that it
+  outperforms state-of-the-art single image-based methods. We show that
+  our method is helpful in cases wheresingle frames contain objects that
+  are at extreme scales, occluded, or blurred. We presentspecific
+  instances where our Seq-NMS improves performance.
+\item
+  Our method placed \(3 ^ { r d }\) in the video object detection (VID)
+  task of the ImageNet LargeScale Visual Recognition Challenge 2015
+  (ILSVRC2015).
+\end{enumerate}
+
+\section{2 Our Approach}\label{our-approach}
+
+\section{2.1 Seq-NMS}\label{seq-nms}
+
+Most object detection methods (Faster R-CNN included) are designed for
+performing object de-tection on a single independent frame. However,
+since we are concerned with object detection invideos, it would be a
+waste of salient information to ignore the temporal component entirely.
+Oneproblem we noticed with Faster R-CNN on the validation set was that
+non-maximum suppression(NMS) frequently chose the wrong bounding box
+after object classification. It would choose boxesthat were overly
+large, resulting in a smaller intersection-over-union (IoU) with the
+ground truth boxbecause the union of areas was large. The large boxes
+often had very high object scores, possiblybecause more information is
+available to be extracted during RoI pooling. In order to combat
+thisproblem, we attempted to use temporal information to re-rank boxes.
+We assume that neighboringframes should have similar objects, and their
+bounding boxes should be similar in position and size,i.e.~temporal
+consistency.
+
+To make use of this temporal consistency, we propose a heuristic method
+for re-ranking boundingboxes in video sequences called Seq-NMS. Seq-NMS
+has three steps: Step 1) Sequence Selection,Step 2) Sequence Re-scoring,
+Step 3) Suppression. We repeat these three steps until a no sequencesare
+left. Figure 1 illustrates this process.
+
+\pandocbounded{\includegraphics[keepaspectratio,alt={image}]{images/9dcb1a280d5f8f66ef1a5685583738fb7dc1b219f408395907a4591b6df141c3.jpg}}
+
+\pandocbounded{\includegraphics[keepaspectratio,alt={image}]{images/876c8e04ca7a888941efd23754a176b281d0ce14348820ee42dbf7a5ecfe96a8.jpg}}
+
+\pandocbounded{\includegraphics[keepaspectratio,alt={image}]{images/fae1bc492a681546e19e84c93b84485074b0fa09619c60dbd91d64d18dd17e32.jpg}}
+
+Figure 2: Illustration of Sequence Selection. We construct a graph where
+boxes in adjacent framesare linked iff their
+\(\mathrm { I o U } > 0 . 5\) . A sequence is a set of boxes that are
+linked in the video. We then selectthe sequence with the highest
+sequence score shown in Equation 1. This produces
+\(\mathbf { B } ^ { s e q }\) and
+\(\mathbf { S } ^ { s e q ^ { \prime } }\)which is a set of at most one
+box per frame, and the associated scores. After Sequence Selection,
+foreach box in \(\mathbf { B } ^ { s e q }\) , we suppress any boxes in
+the same frame that have \(\mathrm { I o U } > 0 . 3\) .
+
+Seq-NMS is performed on a single video clip V which is comprised of a
+set of \(T\) frames,\(\{ v _ { 0 } , \ldots , v _ { T } \}\) . For each
+frame \(t\) , we have a set of region proposal boxes \(b _ { t }\) and
+scores \(s _ { t }\) bothof size \(n _ { t }\) , which varies for each
+frame. The set of proposals for an entire clip is denoted
+by\(\mathbf { B } = \{ b _ { 0 } , \dots , b _ { T } \}\) . Likewise,
+the set of scores for the entire clip is denoted by
+\(\mathbf { S } = \{ s _ { 0 } , \ldots , s _ { T } \}\) .
+
+Given a set of region bounding boxes B, and their detection scores S as
+input, sequence selectionchooses a subset of boxes
+\(\mathbf { B } ^ { s e q }\) and their associated scores
+\(\mathbf { S } ^ { s e q ^ { \prime } }\) . The re-scoring function
+takes \(\mathbf { S } ^ { s e q ^ { \prime } }\)and produces a new set
+of scores \(\mathbf { S } ^ { s e q }\) .
+
+Sequence Selection. For each pair of neighboring frames in V, a bounding
+box in the first framecan be linked with a bounding box in the second
+frame iff their IoU is above some threshold. Wefind potential linkages
+in each pair of neighboring frames across the entire clip. Then, we
+attempt tofind the maximum score sequence across the entire clip. That
+is, we attempt to find the sequence ofboxes that maximize the sum of
+object scores subject to the constraint that all adjacent boxes mustbe
+linked.
+
+\[
+i ^ {\prime} \quad = \quad \underset {i _ {t _ {s}}, \dots , i _ {t _ {e}}} {\operatorname {a r g m a x}} \sum_ {t = t _ {s}} ^ {t _ {e}} s _ {t} [ i _ {t} ]
+\]
+
+\begin{enumerate}
+\def\labelenumi{(\arabic{enumi})}
+\tightlist
+\item
+\end{enumerate}
+
+This can be found efficiently using a simple dynamic programming
+algorithm that maintains themaximum score sequence so far at each box.
+The optimization returns a set of indices \(i ^ { \prime }\) thatare
+used to extract a sequence of boxes
+\(\mathbf { B } ^ { s e q } = \{ b _ { t _ { s } } [ i _ { t _ { s } } ] , . . . , b _ { t _ { e } } [ i _ { t _ { e } } ] \}\)
+and their scores
+\(\begin{array} { r l } { \mathbf { S } ^ { s e q ^ { \prime } } = } \end{array}\)\(\{ s _ { t _ { s } } [ i _ { t _ { s } } ] , \ldots , s _ { t _ { e } } [ i _ { t _ { e } } ] \}\)
+. Figure 2 gives a visual example of the sequence selection phase.
+
+Sequence Re-scoring. After the sequence is selected, the scores within
+it are improved. We applya function \(F\) to the sequence scores to
+produce
+\(\mathbf { S } ^ { s e q } = F ( \mathbf { S } ^ { s e q ^ { \prime } } )\)
+. We try two different re-scoringfunctions: the average and the max.
+
+Suppression. The boxes in the sequence are then removed from the set of
+boxes we link over.Furthermore, we apply suppression within frames such
+that if a bounding box in frame \(t , t \in [ t _ { s } , t _ { e } ]\)
+,has an IoU with \(b _ { t }\) over some threshold, it is also removed
+from the set of candidate boxes.
+
+Table 1: Number of Samples in Imagenet VID Dataset
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}lllll@{}}
+\toprule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\multicolumn{2}{@{}l}{%
+} & Train & Validation & Test \\
+\multirow{2}{*}{Initial} & Snippets & 1,952 & 281 & 458 \\
+& Images & 405,014 & 64,698 & 127,618 \\
+\multirow{2}{*}{Full} & Snippets & 3,862 & 555 & 937 \\
+& Images & 1,122,397 & 176,126 & 315,176 \\
+\end{longtable}
+}
+
+\section{3 The Dataset}\label{the-dataset}
+
+For the 2015 iteration, the ImageNet competition contained a new taster
+competition for object de-tection from video called the ImageNet VID
+competition. Similar to the ImageNet object detectiontask (DET), the
+task is to classify and locate objects in every image. However, instead
+of containinga collection of independent images, the VID dataset groups
+several frames from the same video intovideo clips or ''snippets''. All
+visible objects in every frame are annotated with a class label
+andbounding box. The VID dataset contains 30 object categories which are
+a subset of the 200 cate-gories provided in the DET dataset. The dataset
+contains three sets of non-overlapping videos andlabels: train,
+validation, and test. The training, validation and test sets in the
+initial release of theVID dataset contain 1,952, 281 and 458 snippets
+respectively. Meanwhile, the final release roughlydoubled the number
+snippets in each set to 3,862, 555, and 937. The number of snippets and
+numberof images in each set of the ImageNet VID dataset can be found in
+Table 1.
+
+\section{4 Results}\label{results}
+
+\section{4.1 Training Details for RPN and
+Classifier}\label{training-details-for-rpn-and-classifier}
+
+In Faster R-CNN, the RPN and the classification network share
+convolutional layers and are trainedtogether in an alternating fashion.
+First, we trained a Zeiler Fergus (ZF) style {[}14{]} RPN
+usingstochastic gradient descent and the image sampling strategy
+described in {[}5{]}. We accomplished thisby first training the RPN on
+the initial VID training dataset for 400,000 iterations. We then
+traineda ZF style Fast R-CNN on the initial VID training set for 200,000
+iterations. Finally, we refined theRPN by fixing the convolutional
+layers to be those of the trained detector and trained for 400,000steps.
+We found that our trained RPN was able to obtain proposals that
+overlapped with the groundtruth boxes in the initial VID validation set
+with recall over \(90 \%\) .
+
+For our classifier, we considered both a Zeiler Fergus style network (ZF
+net) and VGG16 network(VGG net) {[}10{]}. The ZF network was trained on
+the initial VID training set and the VGG16 netwas pre-trained on the
+training and validation sets of the 2015 ImageNet DET challenge. The
+DETdataset contained 200 object categories and the train and validation
+sets contained 456,567 and55,502 images, respectively. We then replaced
+the 200 unit softmax layer with a 30 unit one andtrained it on the
+initial VID training set (405K images) while keeping all of the other
+layers fixed.It should be noted that we never used the full training set
+(1.1M images) in any of our experiments.Our models were trained using a
+heavily modified version of the open source Faster R-CNN Caffecode
+released by the authors1.
+
+\section{4.2 Quantitative Results}\label{quantitative-results}
+
+We validated our method by conducting experiments on the initial and
+full validation set as well asthe full test set of the ImageNet VID
+dataset. During the post-processing phase, we considered fourdifferent
+techniques: (i) single image NMS (ii) Seq-NMS (avg) (iii) Seq-NMS (max)
+(iv) Seq-NMS(best). Seq-NMS (avg) and Seq-NMS (max) rescored the
+sequences selected by Seq-NMS using theaverage or max detection scores
+respectively, while Seq-NMS (best) chose the best performing ofthe three
+aforementioned techniques on each class and averaged the results.
+
+Table 2 shows our results on the initial and full validation set. We
+found that using VGG net gavea substantial improvement over using the
+architecture described by Zeiler and Fergus. Sequence
+
+Table 2: Method comparison on initial and full ImageNet VID validation
+set
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}|l|l|l|@{}}
+\toprule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\hline
+Method & mAP(\%) - (Initial Val) & mAP(\%) - (Full Val) \\
+\hline
+ZF net + NMS & 32.2 & - \\
+\hline
+ZF net + Seq-NMS (max) & 36.3 & - \\
+\hline
+ZF net + Seq-NMS (avg) & 38.3 & - \\
+\hline
+ZF net + Seq-NMS (best) & 40.2 & - \\
+\hline
+VGG net + NMS & 44.4 & 44.9 \\
+\hline
+VGG net + Seq-NMS (max) & 50.1 & 50.5 \\
+\hline
+VGG net + Seq-NMS (avg) & 51.5 & 51.4 \\
+\hline
+VGG net + Seq-NMS (best) & 53.6 & 52.2 \\
+\hline
+CUVideo - T-CNN {[}7{]} & - & 73.8 \\
+\hline
+\end{longtable}
+}
+
+re-scoring with Seq-NMS gave further improvements. On the initial
+validation set, Seq-NMS (avg)achieved a mAP score of \(5 1 . 5 \%\) .
+This result can be further improved to \(5 3 . 6 \%\) when combining
+allthree NMS techniques. Meanwhile on the full validation set, Seq-NMS
+(avg) got a mAP score of\(5 1 . 4 \%\) . When combining all three NMS
+methods (Seq-NMS (best)) on the full val set, we achieve amAP score of
+\(5 2 . 2 \%\) . In Figure 3, we give a full breakdown of Seq-NMS' (avg)
+performance acrossall 30 classes and compare it with the single image
+NMS technique. Figure 4 shows which classesexperienced the largest gains
+in performance when switching from single image NMS to Seq-NMS(avg). The
+5 classes that experienced the highest gains in performance were: (i)
+motorcycle (ii)turtle (iii) red panda (iv) lizard and (v) sheep.
+
+On the test set, we ranked \(3 ^ { \mathrm { r d } }\) in terms of
+overall mean average precision (mAP). The results ofVGG net models are
+shown in Table 3. Once again, we see that Seq-NMS and Rescoring
+showedsignificant improvements over traditional frame-wise NMS
+post-processing. Our best submissionachieved a mAP of
+\(4 8 . 7 \% ^ { 2 }\) .
+
+We also report the mAP score of the challenge's top performing method
+{[}7{]} on both the validationand test sets in Tables 2 and 3. In
+{[}7{]}, the authors present a suite of techniques including (i) a
+strongstill-image detector (ii) bounding box suppression and propagation
+(iii) trajectory / tubelet re-scoringand (iv) model combination. The
+still-image detector's performance achieves a mAP of \(6 7 . 7 \%\)
+.When directly comparing the amount of improvement obtained just from
+temporal information (ii)and (iii), our method is superior (
+\(7 . 3 \%\) vs.~\(6 . 7 \%\) ).
+
+\section{4.3 Qualitative Results}\label{qualitative-results}
+
+In Figure 5, we present clips from the ImageNet VID dataset where
+Seq-NMS improved perfor-mance. The boxes represent a sequence selected
+by Seq-NMS. Clips were subsampled to provideexamples of high and low
+scoring boxes. In each of these clips, the object of interest is
+subjectedto one or more perturbations commonly seen in video data such
+as occlusion (clips a, b, and e),drastic scaling (clip c), and blur
+(clip d). These perturbations naturally cause the classifier to
+scoreproposals with much lower confidence. However, since the Seq-NMS
+has associated these lowerconfidence detections with previous higher
+confidence detections of the same object, rescoring thelower confidence
+detections with the average improves precision.
+
+We also present instances where Seq-NMS does not appear to improve
+performance in Figure 6.One case where Seq-NMS may not help is when
+there are several objects with similar appearanceclose together in the
+video (clip a). This will cause the detector to drift from one object to
+anotherwhich leads to missed detections and incorrect score assignment.
+Another case is when Seq-NMSaccumulates spurious detections which leads
+to many more false positives (clips b and c). Thisoccurs because
+Seq-NMS' objective function, the sum of a sequence's confidence scores,
+does notpenalize against adding more detections.
+
+Table 3: Method comparison on full ImageNet VID test set
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}|l|l|@{}}
+\toprule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\hline
+Method & mAP (\%) \\
+\hline
+VGG net + NMS & 43.4 \\
+\hline
+VGG net + Seq-NMS (max) & 47.5 \\
+\hline
+VGG net + Seq-NMS (avg) & 48.7 \\
+\hline
+VGG net + Seq-NMS (best) & 48.2 \\
+\hline
+CUVideo - T-CNN {[}7{]} & 67.8 \\
+\hline
+\end{longtable}
+}
+
+\pandocbounded{\includegraphics[keepaspectratio,alt={image}]{images/00604adaac2e87fd50b474b784a124e78f2dca9f1b5fc521d9d5acc2e1b80d39.jpg}}
+
+Figure 3: Performance (mAP) of our Seq-NMS and NMS. Performance is
+measured on the full Im-ageNet validation set. We use average rescoring
+for Seq-NMS. The classes are sorted in descendingorder by Seq-NMS
+performance.
+
+\pandocbounded{\includegraphics[keepaspectratio,alt={image}]{images/04a7bc4faf264c99a81f2358cadb8e0bcf234b77cd09e2f4a4c1613fb362d346.jpg}}
+
+Figure 4: Absolute improvement in mAP \(( \% )\) using Seq-NMS. The
+improvement is relative to singleimage NMS. Note that 7 classes have
+higher than \(10 \%\) improvement, and only two classes showdecreased
+performance (train and whale).
+
+\section{5 Related Work}\label{related-work}
+
+Many previous works in video object detection framed as multiple object
+tracking. A popular sub-class of these techniques were models that did
+''tracking-by-detection'', whereby a detection al-gorithm is applied on
+each video frame and the detections are associated across frames to form
+
+\pandocbounded{\includegraphics[keepaspectratio,alt={image}]{images/682b24090192d8f8c8b3dd1d29894a7402b97ca535e8195715672cd42c996713.jpg}}
+
+Figure 5: Example video clips where Seq-NMS improves performance. The
+boxes represent asequence selected by Seq-NMS. Clips are subsampled to
+provide examples of high and low scoringboxes. In clips a, b, and e, the
+object becomes more and more occluded as it exits the frame, leadingto
+lower scores. Meanwhile, in clips c and d, the object of interest has a
+low classifier score becauseit is either very small or blurred,
+respectively. In all of these cases, Seq-NMS' rescoring
+significantlyboosts the weaker detections by using the strong detections
+from adjacent frames.
+
+trajectories for each object. Previous detection methods were usually
+based on motion {[}17{]} or ob-ject appearance {[}4{]}. With regards to
+the association step, a classic method involved using Kalmanfilters to
+predict tracks and the Hungarian method {[}8, 15{]} to associate
+detections between frames.Particle filter techniques {[}13, 3{]} further
+improved on Kalman filters by being able to handle multiplehypotheses.
+Other classes of methods tried to compute all of the object trajectories
+at once usinglinear programming {[}6, 2{]}. While these methods are able
+to find a global optimum with high prob-ability, they assume that the
+number of objects to be tracked is known a priori. On the other
+hand,dynamic programming {[}12, 1{]} can also be used to find
+trajectories one by one in a greedy fashion.Our proposed model is
+similar in that it takes detections from a state-of-the-art single image
+objectdetection method {[}9{]} and subsequently associates tracks over
+time by finding the highest scoringpath by also using dynamic
+programming.
+
+\section{6 Conclusion}\label{conclusion}
+
+By using the strong baseline of Faster R-CNN and leveraging additional
+temporal information, wewere one of the top performers in the ImageNet
+Object Detection from Video challenge. We wouldlike to continue pursuing
+improvements to our submission, including training on the entire
+VIDdataset, experimenting with neural network suppression, and
+performing a deeper analysis on ourmodel designed to elucidate its
+weaknesses.
+
+\pandocbounded{\includegraphics[keepaspectratio,alt={image}]{images/ce21b8166a1f4228990f0565f67f065e75cc480f2206dfac61de6da71bea4b86.jpg}}
+
+Figure 6: Video clips in the ImageNet VID dataset where Seq-NMS does not
+improve performance.In clip a, Seq-NMS has difficulty when there are
+several objects with similar appearance closetogether in the video (clip
+a). This will cause the detector to drift from one object to another
+whichleads to missed detections and incorrect score assignment. Seq-NMS
+also accumulates spuriousdetections which leads to many false positives
+(clips b and c). This occurs because Seq-NMS'objective function does not
+penalize against adding more detections.
+
+\section{Acknowledgments}\label{acknowledgments}
+
+The six Tesla K40 GPUs used for this research were donated by the NVIDIA
+Corporation.
+
+\section{References}\label{references}
+
+{[}1{]} Jer´ ome Bercla, Francois Fleuret, and Pascal Fua. Robust people
+tracking with global trajectory opti- ˆmization. In Computer Vision and
+Pattern Recognition, 2006 IEEE Computer Society Conference on,volume 1,
+pages 744--750. IEEE, 2006.
+
+{[}2{]} Jerome Berclaz, Francois Fleuret, Engin Turetken, and Pascal
+Fua. Multiple object tracking us- ¨ing k-shortest paths optimization.
+Pattern Analysis and Machine Intelligence, IEEE Transactions
+on,33(9):1806--1819, 2011.
+
+{[}3{]} Michael D Breitenstein, Fabian Reichlin, Bastian Leibe, Esther
+Koller-Meier, and Luc Van Gool. Robusttracking-by-detection using a
+detector confidence particle filter. In Computer Vision, 2009 IEEE
+12thInternational Conference on, pages 1515--1522. IEEE, 2009.
+
+{[}4{]} Pedro F Felzenszwalb, Ross B Girshick, David McAllester, and
+Deva Ramanan. Object detection withdiscriminatively trained part-based
+models. Pattern Analysis and Machine Intelligence, IEEE Transac-tions
+on, 32(9):1627--1645, 2010.
+
+{[}5{]} Ross Girshick. Fast R-CNN. In Proceedings of the International
+Conference on Computer Vision (ICCV),2015.
+
+{[}6{]} Hao Jiang, Sidney Fels, and James J Little. A linear programming
+approach for multiple object tracking.In Computer Vision and Pattern
+Recognition, 2007. CVPR'07. IEEE Conference on, pages 1--8. IEEE,2007.
+
+{[}7{]} Kai Kang, Hongsheng Li, Junjie Yan, Xingyu Zeng, Bin Yang, Tong
+Xiao, Cong Zhang, Zhe Wang,Ruohui Wang, Xiaogang Wang, et al.~T-cnn:
+Tubelets with convolutional neural networks for objectdetection from
+videos. arXiv preprint arXiv:1604.02532, 2016.
+
+{[}8{]} AG Amitha Perera, Chukka Srinivas, Anthony Hoogs, Glen Brooksby,
+and Wensheng Hu. Multi-objecttracking through simultaneous long
+occlusions and split-merge conditions. In Computer Vision and Pat-tern
+Recognition, 2006 IEEE Computer Society Conference on, volume 1, pages
+666--673. IEEE, 2006.
+
+{[}9{]} Shaoqing Ren, Kaiming He, Ross Girshick, and Jian Sun. Faster
+R-CNN: Towards real-time objectdetection with region proposal networks.
+In Neural Information Processing Systems (NIPS), 2015.
+
+{[}10{]} Karen Simonyan and Andrew Zisserman. Very deep convolutional
+networks for large-scale image recog-nition. arXiv preprint
+arXiv:1409.1556, 2014.
+
+{[}11{]} J.R.R. Uijlings, K.E.A. van de Sande, T. Gevers, and A.W.M.
+Smeulders. Selective search for objectrecognition. International Journal
+of Computer Vision, 2013.
+
+{[}12{]} Jack K Wolf, Audrey M Viterbi, and Glenn S Dixon. Finding the
+best set of k paths through a trellis withapplication to multitarget
+tracking. Aerospace and Electronic Systems, IEEE Transactions on,
+25(2):287--296, 1989.
+
+{[}13{]} Changjiang Yang, Ramani Duraiswami, and Larry Davis. Fast
+multiple object tracking via a hierarchicalparticle filter. In Computer
+Vision, 2005. ICCV 2005. Tenth IEEE International Conference on, volume
+1,pages 212--219. IEEE, 2005.
+
+{[}14{]} Matthew D. Zeiler and Rob Fergus. Visualizing and understanding
+convolutional networks. In ComputerVision - ECCV 2014 - 13th European
+Conference, Zurich, Switzerland, September 6-12, 2014, Proceed-ings,
+Part I, pages 818--833, 2014.
+
+{[}15{]} Hongyi Zhang, Andreas Geiger, and Raquel Urtasun. Understanding
+high-level semantics by modelingtraffic patterns. In The IEEE
+International Conference on Computer Vision (ICCV), December 2013.
+
+{[}16{]} C. Lawrence Zitnick and Piotr Dollar. Edge boxes: Locating
+object proposals from edges. In ´ ECCV.European Conference on Computer
+Vision, September 2014.
+
+{[}17{]} Zoran Zivkovic. Improved adaptive gaussian mixture model for
+background subtraction. In PatternRecognition, 2004. ICPR 2004.
+Proceedings of the 17th International Conference on, volume 2,
+pages28--31. IEEE, 2004.
+
+\end{document}
